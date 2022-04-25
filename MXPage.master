@@ -1,0 +1,95 @@
+<%@ Master Language="VB" CodeFile="MXPage.master.vb" Inherits="MXPage" AutoEventWireup="false" %>
+<%@ Register Assembly="BusyBoxDotNet" Namespace="BusyBoxDotNet" TagPrefix="busyboxdotnet" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+<title></title>    
+</head>
+<body style="margin-top:0;margin-left:0;" >
+    <form id="form1" runat="server" style="background-attachment: fixed; background-repeat: no-repeat" defaultbutton="btnDisableEnter">
+    <ajaxToolkit:ToolkitScriptManager ID="SMMaster" runat="server"  EnablePartialRendering="false" ScriptMode="Release" LoadScriptsBeforeUI="false">
+    </ajaxToolkit:ToolkitScriptManager>
+        <asp:Button ID="btnDisableEnter" runat="server" Text="" OnClientClick="return false;" style="display:none;"/>
+        <asp:Panel ID="Paneltitle" runat="server" CssClass="title" Width="98.7%" style="vertical-align: top" Height="20px">
+         <asp:Label ID="lblTitle" runat="server" Font-Bold="True" Font-Names="Franklin Gothic Book"></asp:Label></asp:Panel>
+        <busyboxdotnet:BusyBox ID="BusyMX" runat="server" OverlayColor="Gray" 
+            Visible="true" BorderStyle="Outset" BorderWidth="3px" 
+            Layout="ClassicBottomImage" TextBold="True" TextColor="Red" 
+            Title="Please wait..." TitleBold="False" TitleColor="0, 64, 0" 
+            TitleItalic="True" BackColor="White" BorderColor="#E0E0E0" 
+            Image="GearsSmall" ShowBusyBox="OnLeavingPage" GZipCompression="true" />
+        <br />
+        <ajaxToolkit:DropShadowExtender ID="ajaxDSETitle" runat="server" TargetControlID="Paneltitle" Rounded=true Opacity="0.5" BehaviorID="DrpShadowBehaviour1" Radius=2 Width=5 TrackPosition=true>
+        </ajaxToolkit:DropShadowExtender>
+        <ajaxToolkit:alwaysvisiblecontrolextender id="ajxAVCETitle" runat="server" targetcontrolid="Paneltitle" HorizontalOffset="2" VerticalOffset="1"></ajaxToolkit:alwaysvisiblecontrolextender>
+        <br />
+        <asp:HiddenField ID="txtTitle" runat="server"  />
+        <br />
+        <asp:ContentPlaceHolder ID="cphMain" runat="server"  >
+        </asp:ContentPlaceHolder>
+		<asp:Panel ID="panelUpdateProgressMX" runat="server" CssClass="updateProgressMX">
+			<asp:UpdateProgress ID="UpdateProgMX" DisplayAfter="0" runat="server">
+          <ProgressTemplate>
+                <div style="position: relative; top: 30%; text-align: center;" >
+                    <asp:Image ID="ImageWaitMX" runat="server" ImageUrl="~/Images/wait.gif" 
+                    ToolTip="Processing" /><br />
+                    <asp:Label ID="lblProcMX" runat="server" Text="Processing..." 
+                        CssClass="ErrHighLight"></asp:Label>
+                </div>
+            </ProgressTemplate>
+			</asp:UpdateProgress>
+		</asp:Panel>
+        <ajaxToolkit:ModalPopupExtender ID="ModalProgress" runat="server" TargetControlID="panelUpdateProgressMX"
+			BackgroundCssClass="modalBackgroundMX" PopupControlID="panelUpdateProgressMX" />        
+
+        <br />
+        <asp:Label ID="lblError" runat="server" Visible="False"></asp:Label>
+        <asp:Panel ID="pnlAppName" runat="server" CssClass="ShowDetail" Wrap="False">
+            <strong><%=strAppName%>&nbsp;</strong></asp:Panel>
+        <ajaxToolkit:AlwaysVisibleControlExtender id="ajxAVCETuccar" runat="server" 
+            horizontalside="Right" targetcontrolid="pnlAppName" verticalside="bottom"></ajaxToolkit:AlwaysVisibleControlExtender>
+        <asp:Panel ID="pnlWarning" runat="server" Font-Bold="True"
+            Visible="False" Width="70%" CssClass="ShowDetail">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td class="ErrHighLight" colspan="3" style="text-align: center;font-family:'Franklin Gothic Book'">
+            APPLICATION DATE
+            <asp:Label ID="txtAppDate" runat="server" Font-Names="Franklin Gothic Book"></asp:Label>
+            NOT SAME WITH SYSTEM (SERVER) DATE
+            <asp:Label ID="txtCompDate" runat="server" Font-Names="Franklin Gothic Book"></asp:Label>. DO NOT PROCESS TRANSACTION.
+            PLEASE CONTACT ADMINISTRATOR.</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: right">
+                        <img alt="close" src="../Images/close.png" style="cursor: hand" onclick="CloseMSG();" /></td>
+                </tr>
+            </table>
+        </asp:Panel>
+        <ajaxToolkit:DropShadowExtender ID="ajaxDSEWarning" runat="server" Enabled="True" 
+            Opacity="0.7" Radius="10" Rounded="True" TargetControlID="pnlWarning" 
+            TrackPosition="True">
+        </ajaxToolkit:DropShadowExtender>
+        <ajaxToolkit:AlwaysVisibleControlExtender ID="ajaxAVCEWarning" runat="server" 
+            Enabled="True" HorizontalSide="Center" TargetControlID="pnlWarning" 
+            VerticalSide="Middle">
+        </ajaxToolkit:AlwaysVisibleControlExtender>
+    </form>
+    <script language="javascript" type="text/javascript" src="<%=PathInfo%>include/validation.js" ></script>
+    <script type="text/javascript">
+    var ModalProgress = '<%=ModalProgress.ClientID%>';
+
+    window.status = "<%=strWindowStatus%>";
+    function getObjectMSGbyClientID(ClientID){
+        var oObject=document.getElementById ? document.getElementById(ClientID) : document.forms[ClientID];
+        return(oObject)
+    }
+    
+    function CloseMSG(){
+        var oDiv=getObjectMSGbyClientID("<%=pnlWarning.ClientID%>");
+        if (oDiv)
+            oDiv.style.display = "none";
+    }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,921 @@
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/MXPage.master" AutoEventWireup="false" EnableEventValidation="false" CodeFile="SalesOrder.aspx.vb" Inherits="Sales_SalesOrder" %>
+
+<%@ Register Src="../UserControl/NoDataFound.ascx" TagName="NoDataFound" TagPrefix="uc6" %>
+<%@ Register Src="../UserControl/BtnInsert.ascx" TagName="BtnInsert" TagPrefix="uc4" %>
+<%@ Register Src="../UserControl/BtnCancelHTML.ascx" TagName="BtnCancelHTML" TagPrefix="uc5" %>
+<%@ Register Src="../UserControl/BtnUpdate.ascx" TagName="BtnUpdate" TagPrefix="uc1" %>
+<%@ Register Src="../UserControl/BtnDelete.ascx" TagName="BtnDelete" TagPrefix="uc2" %>
+<%@ Register Src="../UserControl/BtnCancel.ascx" TagName="BtnCancel" TagPrefix="uc3" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="cphMain" Runat="Server">
+    <asp:DropDownList ID="ddlCriteria" runat="server">
+        <asp:ListItem Value="PONUMBER">PO NUMBER</asp:ListItem>
+        <asp:ListItem Value="SALESORDERCODE">CODE</asp:ListItem>
+        <asp:ListItem Value="BUYERNAME">BUYER NAME</asp:ListItem>
+        
+    </asp:DropDownList><asp:TextBox ID="txtSearch" runat="server" CssClass="required"></asp:TextBox><asp:Button
+        ID="btnFunctionSearch" runat="server" Style="font-size: 8pt; border-top-style: outset;
+        border-right-style: outset; border-left-style: outset; border-bottom-style: outset;"
+        Text="Search" CausesValidation="False" CssClass="Search" /><br />
+
+    <asp:ImageButton ID="imgBtnNew" runat="server" ImageUrl="~/images/add.gif" CausesValidation="False" /><br />
+   
+    <ajaxToolkit:TextBoxWatermarkExtender ID="ajxTBWESearch" runat="server" TargetControlID="txtSearch"
+        WatermarkText="%%">
+    </ajaxToolkit:TextBoxWatermarkExtender>
+    
+    <asp:Panel ID="pnlShow" runat="server" CssClass="ShowDetail" Width="100%">
+        <div style="float: right; vertical-align: middle">
+            <asp:Image ID="imgButtonShow" runat="server" AlternateText="(Show Details...)" ImageUrl="~/images/expand.jpg" />
+            <asp:Label ID="lblShow" runat="server">(Show Details...)</asp:Label>
+        </div>
+        <input id="btnX" style="background-position: left top; width: 24px; cursor: pointer;
+            background-repeat: no-repeat; height: 16px" type="button" /></asp:Panel>
+    <ajaxToolkit:CollapsiblePanelExtender ID="ajaxCPEData" runat="server" CollapseControlID="pnlShow"
+        CollapsedImage="~/images/expand.jpg" CollapsedText="(Show Detail...)" Enabled="True"
+        ExpandControlID="pnlShow" ExpandedImage="~/images/collapse.jpg" ExpandedText="(Hide Detail...)"
+        ImageControlID="imgButtonShow" TargetControlID="pnlData" TextLabelID="lblShow">
+    </ajaxToolkit:CollapsiblePanelExtender>
+      <asp:Panel ID="pnlData" runat="server">
+      <%--  Type :
+        <asp:DropDownList ID="ddlMaterialGroup" runat="server" AutoPostBack="True" DataSourceID="sdsMaterialGroup"
+            DataTextField="MATERIALGROUPNAME" DataValueField="MATERIALGROUPID">
+        </asp:DropDownList><br />
+    <asp:SqlDataSource ID="sdsMaterialGroup" runat="server" ConnectionString="<%$ ConnectionStrings:connection %>"
+        SelectCommand="SELECT NULL AS MATERIALGROUPID, '[DISPLAY ALL]' AS MATERIALGROUPNAME UNION ALL 
+                                        SELECT MATERIALGROUPID, MATERIALGROUPNAME FROM MATERIALGROUP WHERE (DELETESTS= 0) ORDER BY MATERIALGROUPNAME">
+    </asp:SqlDataSource>--%>
+        <asp:GridView ID="gvData" runat="server" AllowPaging="True" AllowSorting="True"
+            AutoGenerateColumns="False" DataKeyNames="SALESORDERID,SALESORDERCODE" 
+            DataSourceID="sdsGrid" Width="100%" Caption="Sales Order List" 
+            RowHeaderColumn="SALESORDERID">
+            <Columns>
+                <asp:CommandField ButtonType="Image" SelectImageUrl="~/images/edit.gif" ShowSelectButton="True">
+                    <ItemStyle Width="20px" HorizontalAlign="Center" />
+                </asp:CommandField>
+                <asp:BoundField DataField="SALESORDERID" HeaderText="ID" ReadOnly="True" SortExpression="SALESORDERID" />
+                <asp:BoundField DataField="SALESORDERCODE" HeaderText="CODE" ReadOnly="True"  ItemStyle-HorizontalAlign="Center" SortExpression="SALESORDERCODE" />
+                <asp:BoundField DataField="PONUMBER" HeaderText="PO Number"  ItemStyle-HorizontalAlign="Center" SortExpression="PONUMBER" />
+                <asp:BoundField DataField="MATERIALGROUPNAME" HeaderText="Group Item"  ItemStyle-HorizontalAlign="Center" SortExpression="MATERIALGROUPNAME" />
+                <asp:BoundField DataField="MATERIALMASTERNAME" HeaderText="Item Name"  ItemStyle-HorizontalAlign="Center" SortExpression="MATERIALMASTERNAME" />
+                <asp:BoundField DataField="BUYERNAME" HeaderText="Buyer Name"  ItemStyle-HorizontalAlign="Center" ReadOnly="True" SortExpression="BUYERNAME" />
+                <asp:BoundField DataField="DATEORDER" HeaderText="Order Date"  ItemStyle-HorizontalAlign="Center" ReadOnly="True" SortExpression="DATEORDER" />
+                <asp:BoundField DataField="DELIVERYDATE" HeaderText="Delivery Date"  ItemStyle-HorizontalAlign="Center" SortExpression="DELIVERYDATE" />
+                <asp:BoundField DataField="USERNAME" HeaderText="Sales Person"  ItemStyle-HorizontalAlign="Center" ReadOnly="True" SortExpression="USERNAME" />
+                
+                
+            </Columns>
+            <EmptyDataTemplate>
+                <uc6:NoDataFound ID="NoDataFound1" runat="server" />
+            </EmptyDataTemplate>
+        </asp:GridView>
+    </asp:Panel>
+          
+    <asp:SqlDataSource ID="sdsGrid" runat="server" ConnectionString="<%$ ConnectionStrings:connection %>"
+                                    SelectCommand="SELECT SO.SALESORDERID AS SALESORDERID,SO.SALESORDERCODE AS SALESORDERCODE
+                                                              ,SO.PONUMBER AS PONUMBER
+                                                              ,SO.MATERIALGROUPID AS MATERIALGROUPID
+                                                              ,MG.MATERIALGROUPNAME AS MATERIALGROUPNAME
+                                                              ,MG.MATERIALGROUPCODE AS MATERIALGROUPCODE
+                                                              ,SO.MATERIALMASTERID AS MATERIALMASTERID
+                                                              ,MM.MATERIALMASTERNAME AS MATERIALMASTERNAME
+                                                              ,MM.MATERIALMASTERCODE AS MATERIALMASTERCODE
+                                                              ,SO.BUYERID AS BUYERID
+	                                                          ,MB.BUYERNAME AS BUYERNAME
+                                                              ,MB.BUYERCODE AS BUYERCODE
+                                                              ,SO.DATEORDER AS DATEORDER
+                                                              ,SO.DELIVERYDATE AS DELIVERYDATE
+                                                              ,SO.CREATEDBY AS CREATEDBY
+                                                              ,AU.UID AS UID
+	                                                          ,AU.UserName AS USERNAME
+                                              FROM SALESORDER SO
+                                              LEFT OUTER JOIN MATERIALMASTER MM ON SO.MATERIALMASTERID = MM.MATERIALMASTERID
+                                              LEFT OUTER JOIN MATERIALGROUP MG ON SO.MATERIALGROUPID = MG.MATERIALGROUPID
+                                              LEFT OUTER JOIN MASTERBUYER MB ON SO.BUYERID = MB.BUYERID
+                                              LEFT OUTER JOIN APPUSER AU ON SO.CREATEDBY = AU.UID WHERE SO.DELETESTS = 0"></asp:SqlDataSource>        
+
+    <asp:Label ID="lblError" runat="server" Width="600px" Font-Bold="False" style="text-align: center" CssClass="ErrHighLight" Visible="False"></asp:Label>
+
+  
+    <asp:FormView ID="fvData" runat="server" DataSourceID="sdsForm"
+        DefaultMode="Edit" Width="100%" DataKeyNames="SALESORDERID">
+        <EditItemTemplate>
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        ID</td>
+                    <td>
+                        <asp:Label ID="lblSalesID" runat="server" Font-Bold="True" 
+                            Text='<%# Eval("SALESORDERID")%>'></asp:Label></td>
+                </tr>
+                <tr>
+                    <td>
+                        SO Number</td>
+                    <td>
+                        <asp:TextBox ID="txtSalesCode" runat="server" Text='<%# Bind("SALESORDERCODE")%>' MaxLength="100" Enabled="false" Width="264px" CssClass="required"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="regSalesCode" runat="server" ControlToValidate="txtSalesCode" Display="None" ErrorMessage="Sales Code be entry..!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCESalesCode" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="regSalesCode">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                    </td>
+                </tr>
+  
+                <tr>
+                    <td>
+                        PO Number</td>
+                    <td>
+                        <asp:TextBox ID="txtPONumber" runat="server" Width="264px" Text='<%# Bind("PONUMBER")%>'  MaxLength="80" CssClass="required"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="reqPONumber" runat="server" ControlToValidate="txtPONumber" Display="None" ErrorMessage="PO Number must be entry...!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCEPONumber" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="reqPONumber">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                    </td>
+                </tr>
+                 <tr>
+                        <td>Item Group Type&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtGroup" runat="server" MaxLength="50" 
+							Text='<%# Eval("MATERIALGROUPNAME")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button7" noenter onclick="GroupFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button8" onclick="GroupClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidGroup" runat="server" Value='<%# Bind("MATERIALGROUPID")%>' />
+                            </td>
+                    </tr>
+                <tr>
+                        <td>Item&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtItemMaster" runat="server" MaxLength="150" 
+							Text='<%# Eval("MATERIALMASTERNAME")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button11" noenter onclick="ItemFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button12" onclick="ItemClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidItem" runat="server" Value='<%# Bind("MATERIALMASTERID")%>' />
+                            </td>
+                    </tr>
+               <tr>
+                        <td>Buyer&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtBuyer" runat="server" MaxLength="150" 
+							Text='<%# Eval("BUYERNAME")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button13" noenter onclick="BuyerFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button14" onclick="BuyerClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidBuyer" runat="server" Value='<%# Bind("BUYERID")%>' />
+                            </td>
+                    </tr>
+                      
+                <tr>
+                        <td>
+                    Date Order</td>
+                        <td>
+                        <asp:TextBox ID="txtdateOfIssue" Text='<%# Bind("DATEORDER")%>' 
+                            runat="server" Width="72px" CssClass="required"></asp:TextBox>
+                            <asp:Image ID="imgDateOfIssue" runat="server" ImageUrl="~/images/grid.gif" style="cursor: pointer" ToolTip="Calendar" />
+                            &nbsp;                  
+                             <ajaxToolkit:CalendarExtender ID="ajaxCEDateOfIssue" runat="server" 
+                        Format="dd/MM/yyyy" PopupButtonID="imgDateOfIssue"
+                        TargetControlID="txtdateOfIssue">
+                        </ajaxToolkit:CalendarExtender>
+                    <ajaxToolkit:MaskedEditExtender ID="ajaxMEEDateOfIssue" runat="server" 
+                        Mask="99/99/9999" MaskType="Date"
+                        TargetControlID="txtdateOfIssue">
+                    </ajaxToolkit:MaskedEditExtender>
+                            
+                        </td>
+                    </tr>
+                <tr>
+                        <td>
+                    Delivery Date</td>
+                        <td>
+                        <asp:TextBox ID="txtInqueryDate" Text='<%# Bind("DELIVERYDATE")%>'
+                            runat="server" Width="72px" CssClass="required"></asp:TextBox>
+                            <asp:Image ID="imgtxtInqueryDate" runat="server" ImageUrl="~/images/grid.gif" style="cursor: pointer" ToolTip="Calendar" />
+                            <ajaxToolkit:CalendarExtender ID="ajaxCEtxtInqueryDate" runat="server" 
+                        Format="dd/MM/yyyy" PopupButtonID="imgtxtInqueryDate"
+                        TargetControlID="txtInqueryDate">
+                        </ajaxToolkit:CalendarExtender>
+                    <ajaxToolkit:MaskedEditExtender ID="ajaxMEtxtInqueryDate" runat="server" 
+                        Mask="99/99/9999" MaskType="Date"
+                        TargetControlID="txtInqueryDate">
+                    </ajaxToolkit:MaskedEditExtender>
+                            
+                        </td>
+                    </tr>
+                <%-- <tr>
+                    <td>
+                        Sales Person</td>
+                    <td>
+                        <asp:Label ID="txtSalesPeson" runat="server" Width="264px" MaxLength="100" Text='<%# Bind("USERNAME")%>' CssClass="required" ClientIDMode="Static"></asp:Label>
+                    </td>
+                </tr>--%>
+                <tr>
+                    <td colspan="2" style="height: 19px">
+                        &nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="FooterStyle">
+                        &nbsp;<uc1:BtnUpdate ID="BtnUpdate1" runat="server" />
+                        <uc2:BtnDelete ID="BtnDelete1" runat="server" />
+                        <uc3:BtnCancel ID="BtnCancel1" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                        </td>
+                </tr>
+            </table>
+         
+     
+        </EditItemTemplate>
+        <InsertItemTemplate>
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        SO Number</td>
+                    <td>
+                        <asp:TextBox ID="txtSalesCode" runat="server" Text='<%# Bind("SALESORDERCODE")%>' MaxLength="100" Width="264px" CssClass="required"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="regSalesCode" runat="server" ControlToValidate="txtSalesCode" Display="None" ErrorMessage="Sales Code be entry..!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCESalesCode" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="regSalesCode">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                    </td>
+                </tr>
+  
+                <tr>
+                    <td>
+                        PO Number</td>
+                    <td>
+                        <asp:TextBox ID="txtPONumber" runat="server" Width="264px" Text='<%# Bind("PONUMBER")%>'  MaxLength="80" CssClass="required"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="reqPONumber" runat="server" ControlToValidate="txtPONumber" Display="None" ErrorMessage="PO Number must be entry...!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCEPONumber" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="reqPONumber">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                    </td>
+                </tr>
+                  <tr>
+                        <td>Item Group Type&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtGroup" runat="server" MaxLength="50" 
+							Text='<%# Eval("MATERIALGROUPCODE")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button7" noenter onclick="GroupFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button8" onclick="GroupClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidGroup" runat="server" Value='<%# Bind("MATERIALGROUPID")%>' />
+                            </td>
+                    </tr>
+                <tr>
+                        <td>Item&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtItemMaster" runat="server" MaxLength="150" 
+							Text='<%# Eval("MATERIALMASTERCODE")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button11" noenter onclick="ItemFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button12" onclick="ItemClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidItem" runat="server" Value='<%# Bind("MATERIALMASTERID")%>' />
+                            </td>
+                    </tr>      
+               <tr>
+                        <td>Buyer&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtBuyer" runat="server" MaxLength="150" 
+							Text='<%# Eval("BUYERCODE")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button13" noenter onclick="BuyerFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button14" onclick="BuyerClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidBuyer" runat="server" Value='<%# Bind("BUYERID")%>' />
+                            </td>
+                    </tr>
+                      
+                <tr>
+                        <td>
+                    Date Order</td>
+                        <td>
+                        <asp:TextBox ID="txtdateOfIssue" Text='<%# Bind("DATEORDER")%>' 
+                            runat="server" Width="72px" CssClass="required"></asp:TextBox>
+                            <asp:Image ID="imgDateOfIssue" runat="server" ImageUrl="~/images/grid.gif" style="cursor: pointer" ToolTip="Calendar" />
+                            &nbsp;                  
+                             <ajaxToolkit:CalendarExtender ID="ajaxCEDateOfIssue" runat="server" 
+                        Format="dd/MM/yyyy" PopupButtonID="imgDateOfIssue"
+                        TargetControlID="txtdateOfIssue">
+                        </ajaxToolkit:CalendarExtender>
+                    <ajaxToolkit:MaskedEditExtender ID="ajaxMEEDateOfIssue" runat="server" 
+                        Mask="99/99/9999" MaskType="Date"
+                        TargetControlID="txtdateOfIssue">
+                    </ajaxToolkit:MaskedEditExtender>
+                            
+                        </td>
+                    </tr>
+                <tr>
+                        <td>
+                    Delivery Date</td>
+                        <td>
+                        <asp:TextBox ID="txtInqueryDate" Text='<%# Bind("DELIVERYDATE")%>'
+                            runat="server" Width="72px" CssClass="required"></asp:TextBox>
+                            <asp:Image ID="imgtxtInqueryDate" runat="server" ImageUrl="~/images/grid.gif" style="cursor: pointer" ToolTip="Calendar" />
+                            <ajaxToolkit:CalendarExtender ID="ajaxCEtxtInqueryDate" runat="server" 
+                        Format="dd/MM/yyyy" PopupButtonID="imgtxtInqueryDate"
+                        TargetControlID="txtInqueryDate">
+                        </ajaxToolkit:CalendarExtender>
+                    <ajaxToolkit:MaskedEditExtender ID="ajaxMEtxtInqueryDate" runat="server" 
+                        Mask="99/99/9999" MaskType="Date"
+                        TargetControlID="txtInqueryDate">
+                    </ajaxToolkit:MaskedEditExtender>
+                            
+                        </td>
+                    </tr>
+                <tr>
+                    <td colspan="2" style="height: 19px">
+                        &nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="FooterStyle">
+                        <uc4:BtnInsert ID="BtnInsert1" runat="server" />
+                        <uc3:BtnCancel ID="BtnCancel2" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                        </td>
+                </tr>
+            </table>
+        </InsertItemTemplate>
+    </asp:FormView>
+     <asp:Panel ID="Panel1" runat="server">
+      
+         </asp:Panel>
+        <!-- FORM VIEW DETAIL -->
+        <asp:MultiView ID="MultiView_detail" runat="server">
+            <asp:View ID="View_detail" runat="server">   
+         <asp:ImageButton ID="imgBtnNew2" runat="server" ImageUrl="~/images/add.gif" CausesValidation="False" OnClick="imgBtnNew2_Click"/><br />
+                
+              
+                          <!-- FOR DETAIL -->
+    <asp:Panel ID="pnlDataDetail" runat="server">
+               <asp:GridView ID="gvSODetail" runat="server" AllowPaging="True" AllowSorting="True" ShowFooter="True" FooterStyle-HorizontalAlign="Center"
+            AutoGenerateColumns="False" DataKeyNames="SALESORDERDETAILID" 
+            DataSourceID="sdsSODetail" Width="100%" Caption="Sales Order Detail" 
+            RowHeaderColumn="SALESORDERDETAILID">
+            <Columns>
+                <asp:CommandField ButtonType="Image" SelectImageUrl="~/images/edit.gif" ShowSelectButton="True">
+                    <ItemStyle Width="20px" HorizontalAlign="Center" />
+                </asp:CommandField>
+                <asp:BoundField DataField="SALESORDERDETAILID" HeaderText="ID" ReadOnly="True" SortExpression="SALESORDERDETAILID" Visible="false" />
+                <asp:BoundField DataField="SALESORDERDETAILCODE" HeaderText="Code" ItemStyle-HorizontalAlign="Center" SortExpression="SALESORDERDETAILCODE" />
+                <asp:BoundField DataField="SALESORDERID" HeaderText="Sales Order Header"  ItemStyle-HorizontalAlign="Center" SortExpression="SALESORDERID" />
+                <asp:BoundField DataField="COLOURNAME" HeaderText="Desc" ReadOnly="True" SortExpression="COLOURNAME" />
+                <asp:BoundField DataField="SIZE" HeaderText="Size" ReadOnly="True"  ItemStyle-HorizontalAlign="Center" SortExpression="SIZE" />
+                <asp:BoundField DataField="QTY" HeaderText="QTY"  ItemStyle-HorizontalAlign="Center" SortExpression="QTY" />
+                <asp:BoundField DataField="MASTERUNITNAME" HeaderText="Unit" ItemStyle-HorizontalAlign="Center" ReadOnly="True" SortExpression="MASTERUNITNAME" />
+                <asp:BoundField DataField="PRICE" HeaderText="Price" SortExpression="PRICE"  ItemStyle-HorizontalAlign="Center"/>
+                <asp:BoundField DataField="TOTALAMMOUNT" HeaderText="Total amount" ReadOnly="True"  ItemStyle-HorizontalAlign="Center" SortExpression="TOTALAMMOUNT" />
+               
+            </Columns>
+            <EmptyDataTemplate>
+                <uc6:NoDataFound ID="NoDataFound1" runat="server" />
+            </EmptyDataTemplate>
+        </asp:GridView>
+               </asp:Panel>
+             <asp:SqlDataSource ID="sdsSODetail" runat="server" ConnectionString="<%$ ConnectionStrings:connection %>"
+                                    SelectCommand="SELECT SOD.SALESORDERDETAILID
+                                                          ,SOD.SALESORDERDETAILCODE
+                                                          ,SO.SALESORDERID
+                                                          ,SOD.COLOURID
+                                                          ,MC.COLOURNAME
+                                                          ,MC.COLOURCODE
+                                                          ,SR.SIZERANGEID AS SIZERANGEID
+                                                          ,SR.SIZE AS SIZE
+                                                          ,SR.CODE AS CODE
+                                                          ,SOD.QTY
+                                                          ,SOD.MASTERUNITID
+                                                          ,MU.MASTERUNITNAME
+                                                          ,MU.MASTERUNITCODE
+                                                          ,SOD.PRICE
+                                                          ,SOD.TOTALAMMOUNT
+                                                      FROM SALESORDERDETAIL SOD
+                                                      LEFT OUTER JOIN SIZERANGE SR ON SOD.SIZERANGEID = SR.SIZERANGEID
+                                                      LEFT OUTER JOIN MASTERUNIT MU ON SOD.MASTERUNITID = MU.MASTERUNITID
+                                                      LEFT OUTER JOIN MASTERCOLOUR MC ON SOD.COLOURID = MC.COLOURID
+                                                      LEFT OUTER JOIN SALESORDER SO ON SOD.SALESORDERID = SO.SALESORDERID
+                                     WHERE SOD.DELETESTS = 0 AND SO.SALESORDERID = @SALESORDERID ">
+                 <SelectParameters>
+            <asp:ControlParameter ControlID="gvData" Name="SALESORDERID" PropertyName="SelectedValue" />
+         
+        </SelectParameters>
+             </asp:SqlDataSource>
+            <!-- END -->
+ <asp:FormView ID="FormView1" runat="server" DataSourceID="sdsFormView1"
+        DefaultMode="Edit" Width="100%" DataKeyNames="SALESORDERDETAILID,SALESORDERID">
+        <EditItemTemplate>
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td>
+                        <asp:Label ID="lblSalesDetailid" runat="server" Font-Bold="True" Visible="false"
+                            Text='<%# Eval("SALESORDERDETAILID")%>'></asp:Label></td>
+                </tr>
+                 <tr>
+                    <td>
+                       Sales Order ID</td>
+                    <td>
+                        <asp:Label ID="lblSalesOrderID" runat="server" Font-Bold="True" 
+                             Text='<%#DirectCast(fvData.FindControl("lblSalesID"), Label).Text%>'></asp:Label></td>
+                </tr>
+                <tr>
+                    <td>
+                        Detail Code &nbsp; &nbsp;&nbsp; &nbsp;</td>
+                    <td>
+                        <asp:TextBox ID="txtSalesOrderDetailCode" runat="server" Text='<%# Bind("SALESORDERDETAILCODE")%>' MaxLength="255" ></asp:TextBox></td>
+                </tr>
+                
+              <tr>
+                        <td>Colour&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtColour" runat="server" MaxLength="50" 
+							Text='<%# Eval("COLOURNAME")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button11" noenter onclick="ColourFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button12" onclick="ColourClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidColour" runat="server" Value='<%# Bind("COLOURID")%>' />
+                            </td>
+                    </tr>
+                 <tr>
+                        <td>Size Range &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtSizeRange" runat="server" MaxLength="50" 
+							Text='<%# Eval("SIZE")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button15" noenter onclick="SizeRangeFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button16" onclick="SizeRangeClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidSizeRange" runat="server" Value='<%# Bind("SIZERANGEID")%>' />
+                            </td>
+                    </tr>
+                                  
+               
+                <tr>
+                    <td>
+                        QTY</td>
+                    <td>
+                        <asp:TextBox ID="txtOrigQty" runat="server" Width="204px" Text='<%# Bind("QTY")%>'  MaxLength="80" CssClass="required" ClientIDMode="Static"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="reqOrigQty" runat="server" ControlToValidate="txtOrigQty" Display="None" ErrorMessage="Original Quantity must be entry...!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCEOrigQty" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="reqOrigQty">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                         <asp:DropDownList ID="ddlUnit" runat="server" DataSourceID="sdsUnit" Width="50px"
+                                DataTextField="MASTERUNITNAME" DataValueField="MASTERUNITID" SelectedValue='<%# Bind("MASTERUNITID")%>'>
+                            </asp:DropDownList>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                       Price</td>
+                    <td>
+                        <asp:TextBox ID="txtConsPC" runat="server" Width="264px" Text='<%# Bind("PRICE")%>'  MaxLength="80" CssClass="required" ClientIDMode="Static" onkeyup="TotalAmount(this);"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="reqConsPC" runat="server" ControlToValidate="txtConsPC" Display="None" ErrorMessage="Cons PC must be entry...!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCEConsPC" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="reqConsPC">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                    </td>
+                </tr>
+                               <tr>
+                    <td>
+                        Total Amount</td>
+                    <td>
+                        <asp:TextBox ID="txtTotalAmount" runat="server" Width="264px" Text='<%# Bind("TOTALAMMOUNT")%>' MaxLength="80" CssClass="required" ClientIDMode="Static"></asp:TextBox>
+                    </td>
+                </tr>
+            
+                <tr>
+                    <td colspan="2" style="height: 19px">
+                        &nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="FooterStyle">
+                        &nbsp;<uc1:BtnUpdate ID="BtnUpdate1" runat="server" />
+                        <uc2:BtnDelete ID="BtnDelete1" runat="server" />
+                        <uc3:BtnCancel ID="BtnCancel1" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                        </td>
+                </tr>
+           </table>
+        </EditItemTemplate>
+        <InsertItemTemplate>
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                    </td>
+                </tr>
+                 
+                 <tr>
+                    <td>
+                       Sales Order ID</td>
+                    <td>
+                        <asp:Label ID="lblSalesOrderID" runat="server" Font-Bold="True" 
+                            Text='<%#DirectCast(fvData.FindControl("lblSalesID"), Label).Text%>'></asp:Label></td>
+                </tr>
+                 <tr>
+                    <td>
+                       Detail Code &nbsp; &nbsp;&nbsp; &nbsp;</td>
+                    <td>
+                        <asp:TextBox ID="txtSalesOrderDetailCode" runat="server" Text='<%# Bind("SALESORDERDETAILCODE")%>' MaxLength="255" ></asp:TextBox></td>
+                </tr>
+              <tr>
+                        <td>Colour&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtColour" runat="server" MaxLength="50" 
+							Text='<%# Eval("COLOURCODE")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button11" noenter onclick="ColourFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button12" onclick="ColourClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidColour" runat="server" Value='<%# Bind("COLOURID")%>' />
+                            </td>
+                    </tr>
+                  <tr>
+                        <td>Size Range &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td>
+						<asp:TextBox ID="txtSizeRange" runat="server" MaxLength="50" 
+							Text='<%# Eval("SIZE")%>' ReadOnly="True" Width="165px"></asp:TextBox>
+                            <input
+						    id="Button15" noenter onclick="SizeRangeFind();" style="background-position: left;
+						    background-image: url(../images/search.gif);  width: 45px; cursor: pointer; background-repeat: no-repeat;
+						     text-align: right" type="button" value="Find" />
+                            <input
+							id="Button16" onclick="SizeRangeClear();" style="background-position: left;
+							background-image:url(../images/clear.png); width: 45px; cursor: pointer; background-repeat: no-repeat;
+							 text-align: right" type="button" noenter value="Clear" />
+						<asp:HiddenField ID="hidSizeRange" runat="server" Value='<%# Bind("SIZERANGEID")%>' />
+                            </td>
+                    </tr>
+               
+                                   
+               
+                <tr>
+                    <td>
+                        QTY</td>
+                    <td>
+                        <asp:TextBox ID="txtOrigQty" runat="server" Width="204px" Text='<%# Bind("QTY")%>'  MaxLength="80" CssClass="required" ClientIDMode="Static"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="reqOrigQty" runat="server" ControlToValidate="txtOrigQty" Display="None" ErrorMessage="Original Quantity must be entry...!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCEOrigQty" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="reqOrigQty">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                         <asp:DropDownList ID="ddlUnit" runat="server" DataSourceID="sdsUnit" Width="50px"
+                                DataTextField="MASTERUNITNAME" DataValueField="MASTERUNITID" SelectedValue='<%# Bind("MASTERUNITID")%>'>
+                            </asp:DropDownList>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                       Price</td>
+                    <td>
+                        <asp:TextBox ID="txtConsPC" runat="server" Width="264px" Text='<%# Bind("PRICE")%>'  MaxLength="80" CssClass="required" ClientIDMode="Static" onkeyup="TotalAmount(this);"></asp:TextBox><asp:RequiredFieldValidator
+                            ID="reqConsPC" runat="server" ControlToValidate="txtConsPC" Display="None" ErrorMessage="Cons PC must be entry...!"></asp:RequiredFieldValidator><ajaxToolkit:ValidatorCalloutExtender
+                                ID="ajaxVCEConsPC" runat="server" HighlightCssClass="ErrHighLight" TargetControlID="reqConsPC">
+                            </ajaxToolkit:ValidatorCalloutExtender>
+                    </td>
+                </tr>
+                               <tr>
+                    <td>
+                        Total Amount</td>
+                    <td>
+                        <asp:TextBox ID="txtTotalAmount" runat="server" Width="264px" Text='<%# Bind("TOTALAMMOUNT")%>' MaxLength="80" CssClass="required" ClientIDMode="Static"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="height: 19px">
+                        &nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="FooterStyle">
+
+                        <asp:Button ID="btnSave" runat="server" 
+                            Style="font-size: 8pt; cursor: pointer; background-position: left; background-image: url(../images/Save.gif); 
+                            background-repeat: no-repeat; text-align: right;" Text="Save" ToolTip="Save" 
+                                Width="55px" ValidationGroup="Pricing" OnClick="btnSave_Click" 
+                                 />
+                            <asp:Button ID="btnDelete" runat="server" CausesValidation="False" 
+                                Style="font-size: 8pt; cursor: pointer; background-position: left; background-image: url(../Images/Delete.gif); cursor: pointer; background-repeat: no-repeat;  text-align: right" 
+                                Text="Delete" Width="55px" 
+                                />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <hr />
+                        </td>
+                </tr>
+            </table>
+        </InsertItemTemplate>
+    </asp:FormView>
+                </asp:View>
+            </asp:MultiView>
+     <asp:Label ID="lblMessage" runat="server" CssClass="ErrHighLight" 
+			                    Font-Bold="True" Font-Underline="True" Style="text-align: center" 
+			                    Visible="False" Width="100%"></asp:Label>
+                                <ajaxToolkit:AnimationExtender ID="ajaxAEMessage" runat="server" TargetControlID="lblMessage">
+                                     <Animations>
+                                        <OnLoad>
+                                            <Sequence>
+                                                <Pulse Duration="0.5" Iterations="0" />
+                                            </Sequence>
+                                        </OnLoad>
+                                    </Animations>
+                                    </ajaxToolkit:AnimationExtender>
+      
+         <asp:SqlDataSource ID="sdsUnit" runat="server" ConnectionString="<%$ ConnectionStrings:connection %>" SelectCommand=" SELECT NULL AS MASTERUNITID, '[ALL]' AS MASTERUNITNAME UNION ALL 
+                                        SELECT MASTERUNITID, MASTERUNITNAME FROM MASTERUNIT WHERE (DELETESTS= 0) ORDER BY MASTERUNITNAME"></asp:SqlDataSource>
+        
+    <asp:SqlDataSource ID="sdsForm" runat="server" ConnectionString="<%$ ConnectionStrings:connection %>"
+                                        SelectCommand="SELECT SO.SALESORDERID AS SALESORDERID,SO.SALESORDERCODE AS SALESORDERCODE
+                                                              ,SO.PONUMBER AS PONUMBER
+                                                              ,SO.MATERIALGROUPID AS MATERIALGROUPID
+                                                              ,MG.MATERIALGROUPNAME AS MATERIALGROUPNAME
+                                                              ,MG.MATERIALGROUPCODE AS MATERIALGROUPCODE
+                                                              ,SO.MATERIALMASTERID AS MATERIALMASTERID
+                                                              ,MM.MATERIALMASTERNAME AS MATERIALMASTERNAME
+                                                              ,MM.MATERIALMASTERCODE AS MATERIALMASTERCODE
+                                                              ,SO.BUYERID AS BUYERID
+	                                                          ,MB.BUYERNAME AS BUYERNAME
+                                                              ,MB.BUYERCODE AS BUYERCODE
+                                                              ,SO.DATEORDER AS DATEORDER
+                                                              ,SO.DELIVERYDATE AS DELIVERYDATE
+                                                              ,SO.CREATEDBY AS CREATEDBY
+                                                              ,AU.UID AS UID
+	                                                          ,AU.UserName AS USERNAME
+                                                        FROM SALESORDER SO
+                                                              LEFT OUTER JOIN MATERIALMASTER MM ON SO.MATERIALMASTERID = MM.MATERIALMASTERID
+                                                              LEFT OUTER JOIN MATERIALGROUP MG ON SO.MATERIALGROUPID = MG.MATERIALGROUPID
+                                                              LEFT OUTER JOIN MASTERBUYER MB ON SO.BUYERID = MB.BUYERID
+                                                              LEFT OUTER JOIN APPUSER AU ON SO.CREATEDBY = AU.UID
+                                                          WHERE SO.SALESORDERID = @SALESORDERID " DeleteCommand="UPDATE SALESORDER SET DELETESTS = 1 WHERE SALESORDERMID=@SALESORDERID " UpdateCommand="SALESORDERUPDATE" UpdateCommandType="StoredProcedure" InsertCommand="SALESORDERADD" InsertCommandType="StoredProcedure" >
+        <SelectParameters>
+            <asp:ControlParameter ControlID="gvData" Name="SALESORDERID" PropertyName="SelectedValue" />
+  <%--          <asp:ControlParameter ControlID="gvData" Name="BOMCODE" PropertyName="SelectedDataKey.Values[1]" />--%>
+        </SelectParameters>
+        <DeleteParameters>
+            <asp:Parameter Name="SALESORDERID" />
+            <asp:Parameter Name="SALESORDERCODE" />
+        </DeleteParameters>
+        <UpdateParameters>
+            <asp:Parameter Name="SALESORDERID" Type="Int32" />
+           <asp:Parameter Name="SALESORDERCODE" Type="String"/>
+            <asp:Parameter Name="PONUMBER" Type="String" />
+            <asp:Parameter Name="MATERIALGROUPID" Type="Int32" />
+            <asp:Parameter Name="MATERIALMASTERID" Type="Int32" />
+            <asp:Parameter Name="BUYERID" Type="Int32" />
+            <asp:Parameter Name="DATEORDER" Type="String"/>
+            <asp:Parameter Name="DELIVERYDATE" Type="String" />
+            <asp:CookieParameter CookieName="UID" Name="UserID" />          
+            <asp:Parameter Direction="InputOutput" Name="retval" Type="Int32" />
+        </UpdateParameters>
+        <InsertParameters>
+             
+            <asp:Parameter Name="SALESORDERCODE" Type="String"/>
+            <asp:Parameter Name="PONUMBER" Type="String" />
+            <asp:Parameter Name="MATERIALGROUPID" Type="Int32" />
+            <asp:Parameter Name="MATERIALMASTERID" Type="Int32" />
+            <asp:Parameter Name="BUYERID" Type="Int32" />
+            <asp:Parameter Name="DATEORDER" Type="String"/>
+            <asp:Parameter Name="DELIVERYDATE" Type="String" />
+            <asp:CookieParameter CookieName="UID" Name="UserId" Type="Int32" />
+            <asp:Parameter Direction="InputOutput" Name="retval" Type="Int32" />
+        </InsertParameters>
+    </asp:SqlDataSource>
+
+
+        <asp:SqlDataSource ID="sdsFormView1" runat="server" ConnectionString="<%$ ConnectionStrings:connection %>"
+                                        SelectCommand=" SELECT SOD.SALESORDERDETAILID
+                                                          ,SOD.SALESORDERDETAILCODE
+                                                          ,SO.SALESORDERID
+                                                          ,SOD.COLOURID
+                                                          ,MC.COLOURNAME
+                                                          ,MC.COLOURCODE
+                                                          ,SR.SIZERANGEID AS SIZERANGEID
+                                                          ,SR.SIZE AS SIZE
+                                                          ,SR.CODE AS CODE
+                                                          ,SOD.QTY
+                                                          ,SOD.MASTERUNITID
+                                                          ,MU.MASTERUNITNAME
+                                                          ,MU.MASTERUNITCODE
+                                                          ,SOD.PRICE
+                                                          ,SOD.TOTALAMMOUNT
+                                                      FROM SALESORDERDETAIL SOD
+                                                      LEFT OUTER JOIN SIZERANGE SR ON SOD.SIZERANGEID = SR.SIZERANGEID
+                                                      LEFT OUTER JOIN MASTERUNIT MU ON SOD.MASTERUNITID = MU.MASTERUNITID
+                                                      LEFT OUTER JOIN MASTERCOLOUR MC ON SOD.COLOURID = MC.COLOURID
+                                                      LEFT OUTER JOIN SALESORDER SO ON SOD.SALESORDERID = SO.SALESORDERID
+                                          WHERE SOD.SALESORDERDETAILID = @SALESORDERDETAILID " DeleteCommand="UPDATE SALESORDERDETAIL SET DELETESTS = 1 WHERE SALESORDERDETAILID=@SALESORDERDETAILID " UpdateCommand="SALESORDERDETAILUPDATE" UpdateCommandType="StoredProcedure"  >
+      <SelectParameters>
+          <asp:ControlParameter ControlID="gvSODetail" Name="SALESORDERDETAILID" PropertyName="SelectedValue" />
+            <asp:ControlParameter ControlID="gvData" Name="SALESORDERID" PropertyName="SelectedValue" />
+        </SelectParameters>
+        <DeleteParameters>
+            <asp:Parameter Name="SALESORDERDETAILID" />
+            <asp:Parameter Name="SALESORDERID" />
+        </DeleteParameters>
+        <UpdateParameters>
+            <asp:Parameter Name="SALESORDERDETAILID" Type="Int32" />           
+            <asp:Parameter Name="SALESORDERDETAILCODE" Type="String"/>
+            <asp:Parameter Name="SALESORDERID" Type="Int32" />
+            <asp:Parameter Name="COLOURID" Type="Int32" />
+            <asp:Parameter Name="SIZERANGEID" Type="Int32"/>
+            <asp:Parameter Name="QTY" Type="Decimal" />
+            <asp:Parameter Name="MASTERUNITID" Type="Int32" />
+            <asp:Parameter Name="PRICE" Type="Decimal"/>
+            <asp:Parameter Name="TOTALAMMOUNT" Type="Decimal" />
+            <asp:CookieParameter CookieName="UID" Name="UserID" />          
+            <asp:Parameter Direction="InputOutput" Name="retval" Type="Int32" />
+        </UpdateParameters>
+            <InsertParameters>
+            <asp:Parameter Name="SALESORDERDETAILCODE" Type="String"/>
+            <asp:Parameter Name="SALESORDERID" Type="Int32" />
+            <asp:Parameter Name="COLOURID" Type="Int32" />
+            <asp:Parameter Name="SIZERANGEID" Type="Int32"/>
+            <asp:Parameter Name="QTY" Type="Decimal" />
+            <asp:Parameter Name="MASTERUNITID" Type="Int32" />
+            <asp:Parameter Name="PRICE" Type="Decimal"/>
+            <asp:Parameter Name="TOTALAMMOUNT" Type="Decimal" />
+            <asp:CookieParameter CookieName="UID" Name="UserID" />          
+            <asp:Parameter Direction="InputOutput" Name="retval" Type="Int32" />
+        </InsertParameters>
+           </asp:SqlDataSource>
+   
+<script type="text/javascript" src="../include/TableHighLight.js"></script>
+<script type="text/javascript">
+    FormatTable("<%=gvData.ClientID%>")
+    FormatTable("<%=FormView1.ClientID%>")
+
+    function SetValueTxtByClientID(ClientID, sValue) {
+        var oText = document.getElementById ? document.getElementById(ClientID) : document.forms[ClientID];
+        if (oText)
+            oText.value = sValue;
+    }
+    function TotalAmount(o) {
+        var a = document.getElementById("txtOrigQty").value;
+        var c = document.getElementById("txtConsPC").value;
+        var txtB = document.getElementById("txtTotalAmount");
+
+        var result = toNumeric(a) * toNumeric(c);
+        if (!isNaN(result)) {
+            txtB.value = Math.round(result * 1) / 1;
+        }
+    }
+    
+    function toNumeric(theValue) {
+        var ValX = parseFloat(FormatNumberClear(theValue));
+        if (isNaN(ValX))
+            ValX = 0;
+        return (ValX);
+    }
+    //group
+    function GroupFind() {
+        WinRef = window.open("../ParamGlobal/GroupSearch.aspx?Action=Find", "GroupFind", "height=500,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable")
+        WinRef.focus();
+    }
+
+    function SetGroup(MATERIALGROUPID, MATERIALGROUP) {
+        SetValueTxtByClientID("<%=strGroupID%>", MATERIALGROUPID);
+        SetValueTxtByClientID("<%=strGroup%>", MATERIALGROUP);
+    }
+
+    function GroupClear() {
+        SetValueTxtByClientID("<%=strGroupID%>", "");
+        SetValueTxtByClientID("<%=strGroup%>", "");
+    }
+    //item master
+    function ItemFind() {
+        WinRef = window.open("../ParamGlobal/MasterMaterialSearch.aspx?Action=Find", "ItemFind", "height=500,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable")
+        WinRef.focus();
+    }
+
+    function SetItem(MATERIALMASTERID, MATERIALMASTER) {
+        SetValueTxtByClientID("<%=strItemID%>", MATERIALMASTERID);
+        SetValueTxtByClientID("<%=strItem%>", MATERIALMASTER);
+    }
+
+    function ItemClear() {
+        SetValueTxtByClientID("<%=strItemID%>", "");
+        SetValueTxtByClientID("<%=strItem%>", "");
+    }
+
+    //buyer
+    function BuyerFind() {
+        WinRef = window.open("../ParamGlobal/MasterBuyerSearch.aspx?Action=Find", "BuyerFind", "height=500,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable")
+        WinRef.focus();
+    }
+
+    function SetBuyer(BUYERID, MASTERBUYER) {
+        SetValueTxtByClientID("<%=strBuyerID%>", BUYERID);
+        SetValueTxtByClientID("<%=strBuyer%>", MASTERBUYER);
+    }
+
+    function BuyerClear() {
+        SetValueTxtByClientID("<%=strBuyerID%>", "");
+        SetValueTxtByClientID("<%=strBuyer%>", "");
+    }
+
+    //color
+    function ColourFind() {
+        WinRef = window.open("../ParamGlobal/ColourSearch.aspx?Action=Find", "ColourFind", "height=500,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable")
+        WinRef.focus();
+    }
+
+    function SetColourFind(COLOURID, MASTERCOLOUR) {
+        SetValueTxtByClientID("<%=strColourID%>", COLOURID);
+        SetValueTxtByClientID("<%=strColour%>", MASTERCOLOUR);
+    }
+
+    function ColourClear() {
+        SetValueTxtByClientID("<%=strColourID%>", "");
+        SetValueTxtByClientID("<%=strColour%>", "");
+    }
+   //size range
+    function SizeRangeFind() {
+        WinRef = window.open("../ParamGlobal/SizeSearch.aspx?Action=Find", "SizeRangeFind", "height=500,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable")
+        WinRef.focus();
+    }
+
+    function SetSizeRange(SIZERANGEID, SIZERANGE) {
+        SetValueTxtByClientID("<%=strSizeRangeID%>", SIZERANGEID);
+        SetValueTxtByClientID("<%=strSizeRange%>", SIZERANGE);
+    }
+
+    function SizeRangeClear() {
+        SetValueTxtByClientID("<%=strSizeRangeID%>", "");
+        SetValueTxtByClientID("<%=strSizeRange%>", "");
+    }
+
+</script>
+
+</asp:Content>
+
+

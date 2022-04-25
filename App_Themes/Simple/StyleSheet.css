@@ -1,0 +1,344 @@
+﻿body
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 8pt;
+	margin: 0px;
+	background-color: #caf9df;
+}
+caption
+{
+	font-family: Trebuchet MS, Arial;
+	background-color: #00cc66;
+	font-size: small;
+	border-right: thin groove;
+	border-top: thin groove;
+	border-left: thin groove;
+	border-bottom: thin groove;
+	font-weight: bold;
+	text-decoration: none;
+}
+.Search
+{
+	background-position: left top;
+	background-image: url(../../images/search.gif);
+	width: 60px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	
+	text-align: right;
+}
+.ShowDetail
+{
+	border-right: thin outset;
+	border-top: thin outset;
+	border-left: thin outset;
+	border-bottom: thin outset;
+	background-color: #99cc99;
+	cursor: move;
+	color: black;
+	font-weight: bold;
+}
+.RowOver
+{
+	background-color: #00ffcc;
+	color: buttontext;
+	vertical-align: top;
+	border-bottom: thin ridge;
+}
+span:hover{
+    background-color:  Maroon;
+    color: White;
+}
+
+input
+{font-size: 8pt;}
+input:not(.disabled):focus {
+    background-color: Orange;
+    color: Black;
+}
+input:not(.disabled):hover{
+    background-color: Lime;
+    color: Black;
+}
+textarea
+{font-size:8pt;}
+textarea:not(.disabled):focus {
+    border: 1px ridge #f00;
+    background-color: Orange;
+    color: Black;
+}
+textarea:not(.disabled):hover{
+    background-color: Lime;
+    color: Black;
+}
+select
+{font-size:8pt;}
+select:not(.disabled):focus {
+    border: 1px ridge #f00;
+    background-color: Orange;
+    color: Black;
+}
+select:hover{
+    background-color: Lime;
+    color: Black;
+}
+a
+{
+	background-color: #1C5E55;
+	color: White;
+}
+
+a:hover
+{
+	color: yellow;
+}
+.disabled
+{
+	background-color: #d8dcdc;
+}
+.required
+{
+	background-position: right top;
+	background-image: url(../../images/required.gif);
+	background-repeat: no-repeat;
+	font-family: Arial, 'Courier New';
+	background-color: #9acd32;
+	color: blue;
+}
+
+.title
+{
+	font-family: 'verdana, Arial Black';
+	font-weight: bold;
+	font-size: 10pt;
+	background-color: #1C5E55;
+	color: White;
+	border-right: thin solid;
+	border-top: thin solid;
+	border-left: thin solid;
+	border-bottom: thin solid;
+}
+
+.HeaderStyle
+{
+	font-weight: bold;
+	font-family: Arial, 'Courier New';
+	background-color: #1C5E55;
+	color: White;
+	font-weight: bold;
+}
+.FooterStyle
+{
+	background-color: #48b483;
+}
+
+.RowStyle
+{
+	background-color: #f5f5dc;
+	vertical-align: top;
+}
+
+.AlternatingRowStyle
+{
+	background-color: #eaf5ed;
+	vertical-align: top;
+}
+
+.SelectedRowStyle
+{
+    background-color:#C5BBAF;
+    color:#333333;
+    vertical-align:top;
+	border-bottom: thin ridge;
+}
+
+
+
+
+/*
+ini adalah style dari MENU javascript
+*/
+.Panel
+{
+	background-color: #4A3C8C;
+	border-right: thin ridge;
+	border-top: thin ridge;
+	border-left: thin ridge;
+	border-bottom: thin ridge;
+}
+.holder
+{
+    /*FILTER: progid:DXImageTransform.Microsoft.Shadow(direction=135,color=#333333,strength=3)*/
+}
+.pad
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.bar
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.subholder
+{
+    /*FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0)
+   progid:DXImageTransform.Microsoft.Shadow(direction=135,color=#333333,strength=3);*/
+    TEXT-ALIGN: left
+}
+.itemTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    /*FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);*/
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainLeft
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    /*FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);*/
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 130px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    /*FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);*/
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 100px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: center
+}
+.itemSub
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 12px;
+    /*FILTER: progid:DXImageTransform.Microsoft.Slide(slidestyle=PUSH,Bands=1,duration=0);*/
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid
+}
+.itemNormal
+{
+    BORDER-LEFT-COLOR: #c9cbcd;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #c9cbcd;
+    BACKGROUND-COLOR: #9a9b9c;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemOn
+{
+    BORDER-LEFT-COLOR: #feffff;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #feffff;
+    BACKGROUND-COLOR: #c9cbcd;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemDown
+{
+    BORDER-LEFT-COLOR: #2f2f30;
+    BORDER-BOTTOM-COLOR: #c9cbcd;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #2f2f30;
+    BACKGROUND-COLOR: #656667;
+    BORDER-RIGHT-COLOR: #c9cbcd
+}
+.fontNormal
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontOn
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontDown
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-STYLE: italic;
+    FONT-FAMILY: verdana
+}
+.tagNormal
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagOn
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagDown
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+td
+{
+	vertical-align:top;
+}
+.ErrHighLight
+{
+	background-color: yellow;
+	color: black;
+}
+th
+{
+	border-right: 1px ridge;
+	border-top: 1px ridge;
+	border-left: 1px ridge;
+	border-bottom: 1px ridge;
+	vertical-align:top;
+}
+.report
+{
+	background-color:White
+}

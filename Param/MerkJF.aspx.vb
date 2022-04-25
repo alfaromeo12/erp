@@ -1,0 +1,92 @@
+
+Partial Class Param_Merk
+
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_PreInit(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreInit
+        Page.Theme = GetUserTheme(Request.Cookies("UID").Value)
+    End Sub
+
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not IsPostBack Then
+            DataSearch()
+            ''SetObjectValidation(txtSearch, True)
+        End If
+    End Sub
+
+
+    Protected Sub gvData_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles gvData.RowCommand
+        'lblError.Text = ""
+        lblError.Visible = False
+    End Sub
+
+
+
+    Private Sub SetValidation()
+        'Dim oTextBox As TextBox
+        'oTextBox = CType(fvData.FindControl("txtMerkCode"), TextBox)
+        'If oTextBox IsNot Nothing Then
+        '    SetObjectValidation(oTextBox, False, "uppercase nospace")
+        '    oTextBox.Focus()
+        'End If
+        'oTextBox = CType(fvData.FindControl("txtMerkName"), TextBox)
+        'If oTextBox IsNot Nothing Then SetObjectValidation(oTextBox, False, "uppercase")
+
+    End Sub
+
+    Private Sub DataSearch()
+        If Len(Trim(txtSearch.Text)) > 0 Then
+            Me.sdsGrid.SelectCommand = Me.sdsGrid.SelectCommand & " AND " + ddlCriteria.SelectedItem.Value + " LIKE '" + Replace(Replace(Replace(Me.txtSearch.Text, ";", ""), "'", "''"), "'", "''") + "%'"
+        End If
+        gvData.DataBind()
+    End Sub
+
+
+    Protected Sub btnFunctionSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnFunctionSearch.Click
+        DataSearch()
+        'lblError.Text = ""
+        lblError.Visible = False
+    End Sub
+
+
+
+
+    Protected Sub btnSave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        Dim objDB As New DBX
+        Try
+            Dim oTextBox As TextBox
+            Dim strMerkID As String
+            Dim strMandatory As String = "1"
+            For Each row As GridViewRow In gvData.Rows
+                oTextBox = CType(row.FindControl("txtJFMerkCode"), TextBox)
+                If Len(Trim(oTextBox.Text)) > 0 Then
+                    strMerkID = gvData.DataKeys(row.RowIndex).Values("MERKID").ToString()
+                    objDB.ExecSP("MERKJJFSave", objDB.MP("@MERKID", Data.SqlDbType.Int, strMerkID, 20), _
+                        objDB.MP("@JFID", Data.SqlDbType.Int, ddlJFSearch.SelectedValue, 20), _
+                        objDB.MP("@JFMERKCODE", Data.SqlDbType.VarChar, oTextBox.Text, 20), _
+                        objDB.MP("@USERID", Data.SqlDbType.Int, Request.Cookies("UID").Value, 20) _
+                       )
+                End If
+            Next
+            DataSearch()
+        Catch ex As Exception
+            Throw
+        Finally
+            objDB.Close()
+            objDB = Nothing
+        End Try
+    End Sub
+
+    Protected Sub gvData_PageIndexChanged(sender As Object, e As System.EventArgs) Handles gvData.PageIndexChanged
+        DataSearch()
+    End Sub
+
+    Protected Sub gvData_Sorted(sender As Object, e As System.EventArgs) Handles gvData.Sorted
+        DataSearch()
+    End Sub
+
+    Protected Sub imgBtnNew_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles imgBtnNew.Click
+
+    End Sub
+End Class

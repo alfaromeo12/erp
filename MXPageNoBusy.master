@@ -1,0 +1,119 @@
+<%@ Master Language="VB" CodeFile="MXPageNoBusy.master.vb" Inherits="MXPage" AutoEventWireup="false" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+<title></title>
+<style type="text/css">
+.modalBackgroundMX
+{
+	background-color: Gray;
+	filter: alpha(opacity=50);
+	opacity: 0.50;
+}
+.updateProgressMX
+{
+	background-color: #cccccc;
+	position: absolute;
+	width: 180px;
+	height: 65px;
+	border-bottom: 2px outset;
+	border-left: 2px outset;
+	border-top: 2px outset;
+	border-right: 2px outset;
+	font-weight: bold;
+}
+</style>
+</head>
+<body style="margin-top:0;margin-left:0;">
+    <form id="form1" runat="server" style="background-attachment: fixed; background-repeat: no-repeat">
+    <ajaxToolkit:ToolkitScriptManager ID="SMMaster" runat="server" EnablePartialRendering="false" ScriptMode="Release" LoadScriptsBeforeUI="false">
+    </ajaxToolkit:ToolkitScriptManager>
+        <asp:Panel ID="Paneltitle" runat="server" CssClass="title" Width="98.7%" style="vertical-align: top" Height="20px">
+         <asp:Label ID="lblTitle" runat="server" Font-Bold="True"></asp:Label></asp:Panel>
+        <br />
+        <ajaxToolkit:DropShadowExtender ID="ajaxDSETitle" runat="server" TargetControlID="Paneltitle" Rounded=true Opacity="0.5" BehaviorID="DrpShadowBehaviour1" Radius=2 Width=5 TrackPosition=true>
+        </ajaxToolkit:DropShadowExtender>
+        <ajaxToolkit:alwaysvisiblecontrolextender id="ajxAVCETitle" runat="server" targetcontrolid="Paneltitle" HorizontalOffset="2" VerticalOffset="1"></ajaxToolkit:alwaysvisiblecontrolextender>
+        <br />
+        <asp:HiddenField ID="txtTitle" runat="server"  />
+        <br />
+        <asp:ContentPlaceHolder ID="cphMain" runat="server"  >
+        </asp:ContentPlaceHolder>
+		<asp:Panel ID="panelUpdateProgressMX" runat="server" CssClass="updateProgressMX">
+			<asp:UpdateProgress ID="UpdateProgMX" DisplayAfter="0" runat="server">
+          <ProgressTemplate>
+                <div style="position: relative; top: 30%; text-align: center;" >
+                    <asp:Image ID="ImageWaitMX" runat="server" ImageUrl="~/Images/wait.gif" 
+                    ToolTip="Processing" /><br />
+                    <asp:Label ID="lblProcMX" runat="server" Text="Processing..." 
+                        CssClass="ErrHighLight"></asp:Label>
+                </div>
+            </ProgressTemplate>
+			</asp:UpdateProgress>
+		</asp:Panel>
+		<ajaxToolkit:ModalPopupExtender ID="ModalProgress" runat="server" TargetControlID="panelUpdateProgressMX"
+			BackgroundCssClass="modalBackgroundMX" PopupControlID="panelUpdateProgressMX" />        
+        <br />
+        <asp:Label ID="lblError" runat="server" Visible="False"></asp:Label>
+        <asp:Panel ID="pnlTuccar" runat="server" CssClass="ShowDetail" Wrap="False" BorderStyle="Ridge">
+            <strong><%=strAppName%></strong></asp:Panel>
+        <ajaxToolkit:AlwaysVisibleControlExtender id="ajxAVCETuccar" runat="server" horizontalside="Right" targetcontrolid="pnlTuccar" verticalside="bottom"></ajaxToolkit:alwaysvisiblecontrolextender><ajaxToolkit:alwaysvisiblecontrolextender id="ajaxAVCEWarning" runat="server" horizontalside="Center" targetcontrolid="pnlWarning" VerticalSide="Middle">
+        </ajaxToolkit:AlwaysVisibleControlExtender>
+        <asp:Panel ID="pnlWarning" runat="server" Font-Bold="True"
+            Visible="False" Width="70%" BorderStyle="Ridge">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td class="ErrHighLight" colspan="3" style="text-align: center ;font-family:'Franklin Gothic Book'">
+            APPLICATION DATE
+            <asp:Label ID="txtAppDate" runat="server" Font-Names="Franklin Gothic Book"></asp:Label>
+            NOT SAME WITH SYSTEM (SERVER) DATE
+            <asp:Label ID="txtCompDate" runat="server" Font-Names="Franklin Gothic Book"></asp:Label>. DO NOT PROCESS TRANSACTION.
+            PLEASE CONTACT ADMINISTRATOR.</td>
+                </tr>
+                <tr>
+                    <td class="ShowDetail" colspan="3" style="height: 19px; text-align: right">
+                        <img alt="close" src="../Images/close.png" style="cursor: pointer" onclick="CloseMSG();" /></td>
+                </tr>
+            </table>
+        </asp:Panel>
+    </form>
+    <script language="javascript" type="text/javascript" src="<%=PathInfo%>include/validation.js" ></script>
+    <script type="text/javascript">
+    window.status = "<%=strWindowStatus%>";
+    var ModalProgress = '<%=ModalProgress.ClientID%>';
+
+    function getObjectMSGbyClientID(ClientID){
+        var oObject=document.getElementById ? document.getElementById(ClientID) : document.forms[ClientID];
+        return(oObject)
+    }
+    
+    function CloseMSG(){
+        var oDiv=getObjectMSGbyClientID("<%=pnlWarning.ClientID%>");
+        if (oDiv)
+            oDiv.style.display = "none";
+    }
+    function ShowWait(){
+        if ($find(ModalProgress))
+            $find(ModalProgress).show();
+    }
+    function HideWait() {
+        if ($find(ModalProgress))
+    	    $find(ModalProgress).hide();
+    }
+    window.onbeforeunload=function(){
+        ShowWait();
+    }
+
+    Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(beginReq);
+    Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endReq);
+
+    function beginReq(sender, args) {
+        $find(ModalProgress).show();
+    }
+
+    function endReq(sender, args) {
+        $find(ModalProgress).hide();
+    } 
+    </script>
+</body>
+</html>

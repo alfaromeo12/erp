@@ -1,0 +1,60 @@
+<%@ Master Language="VB" CodeFile="MXPageNoTitle.master.vb" Inherits="MXPage" AutoEventWireup="false" %>
+<%@ Register Assembly="BusyBoxDotNet" Namespace="BusyBoxDotNet" TagPrefix="busyboxdotnet" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+<title></title>    
+</head>
+<body leftmargin="0" topmargin="0">
+    <form id="form1" runat="server" style="background-attachment: fixed; background-repeat: no-repeat">
+    <ajaxToolkit:ToolkitScriptManager ID="SMMaster" runat="server" EnableHistory=True>
+    </ajaxToolkit:ToolkitScriptManager>
+        <busyboxdotnet:BusyBox ID="BusyMX" runat="server" OverlayColor="Gray" 
+            Visible="true" BorderStyle="Outset" BorderWidth="3px" 
+            Layout="ClassicBottomImage" TextBold="True" TextColor="Red" 
+            Title="Please wait..." TitleBold="False" TitleColor="0, 64, 0" 
+            TitleItalic="True" BackColor="White" BorderColor="#E0E0E0" 
+            Image="GearsSmall" ShowBusyBox="OnLeavingPage" GZipCompression="False" />
+        <asp:HiddenField ID="txtTitle" runat="server"  />
+        <asp:ContentPlaceHolder ID="cphMain" runat="server"  >
+        </asp:ContentPlaceHolder>
+        <br />
+        <asp:Label ID="lblError" runat="server" Visible="False"></asp:Label>
+        <ajaxToolkit:alwaysvisiblecontrolextender id="ajaxAVCEWarning" runat="server" horizontalside="Center" targetcontrolid="pnlWarning" VerticalSide="Middle">
+        </ajaxToolkit:AlwaysVisibleControlExtender>
+        <asp:Panel ID="pnlWarning" runat="server" Font-Bold="True"
+            Visible="False" Width="70%" BorderStyle="Ridge">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td class="ErrHighLight" colspan="3" style="text-align: center ; font-family:'Franklin Gothic Book'">
+            APPLICATION DATE
+            <asp:Label ID="txtAppDate" runat="server" Font-Names="Franklin Gothic Book"></asp:Label>
+            NOT SAME WITH SYSTEM (SERVER) DATE
+            <asp:Label ID="txtCompDate" runat="server" Font-Names="Franklin Gothic Book"></asp:Label>. DO NOT PROCESS TRANSACTION.
+            PLEASE CONTACT ADMINISTRATOR.</td>
+                </tr>
+                <tr>
+                    <td class="ShowDetail" colspan="3" style="height: 19px; text-align: right">
+                        <img alt="close" src="../Images/close.png" style="cursor: pointer" onclick="CloseMSG();" /></td>
+                </tr>
+            </table>
+        </asp:Panel>
+    </form>
+    <script language="javascript" type="text/javascript" src="<%=PathInfo%>include/validation.js" ></script>
+    <script type="text/javascript">
+    window.status = "<%=strWindowStatus%>";
+    function getObjectMSGbyClientID(ClientID){
+        var oObject=document.getElementById ? document.getElementById(ClientID) : document.forms[ClientID];
+        return(oObject)
+    }
+    
+    function CloseMSG(){
+        var oDiv=getObjectMSGbyClientID("<%=pnlWarning.ClientID%>");
+        if (oDiv)
+            oDiv.style.display = "none";
+    }
+    </script>
+</body>
+</html>

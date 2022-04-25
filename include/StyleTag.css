@@ -1,0 +1,274 @@
+﻿
+body
+{
+	font-size: 10pt;
+	font-family: 'Courier New';
+	background-position: center top;
+}
+.titleclass
+{
+	font-family: 'Arial Black';
+	font-size: 16pt;
+	color: #006699;
+	border-bottom: double;
+}
+H1
+{
+	font-weight: bold;
+	font-size: 16pt;
+	color: #006699;
+	font-family: 'Arial Black';
+	vertical-align: middle;
+}
+
+.TitleLabel
+{
+	font-weight: bold;
+	color: #ffffff;
+	font-family: Tahoma;
+	background-color: #4A3C8C;
+	vertical-align: middle;
+	text-align: left;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+	margin: 0px;
+	padding-top: 0px;
+}
+
+A.Link1
+{font-weight: bold;
+	font-size: 8pt;
+	color: #006699;
+	font-family: Tahoma;
+	text-decoration: underline;
+}
+TH.Tbl
+{
+	font-weight: bold;
+	color: #ffffff;
+	font-family: Tahoma;
+	background-color: #4A3C8C;
+	
+	
+}
+H2
+{
+	font-weight: bold;
+	font-size: 10pt;
+	color: #ffffff;
+	font-family: tahoma;
+	background-color: #0099ff;
+}
+TABLE.Tbl
+{
+	background-color: #E7E7FF;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	margin: 0px;
+	clip: rect(0px 0px 0px 0px);
+	font-size: 8pt;
+	font-family: Tahoma;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	border-bottom-width: 0px;
+	border-right-width: 0px;
+}
+.Mandatory
+{
+	background-color: #ff6666;
+	font-family: 'Courier New' ;
+}
+.Input
+{
+	font-family: 'Courier New' ;
+}
+.Validator
+{
+	/*filter: progid:DXImageTransform.Microsoft.Shadow(color=  '#666666' , Direction=135, Strength=4);*/
+	position: absolute;
+}
+.Button
+{
+	font:tahoma;
+	font-size:9px
+}
+.bGround
+{
+	background-color: white;
+}
+/*
+ini adalah style dari MENU javascript jack
+*/
+.Panel
+{
+	background-color: #4A3C8C;
+	border-right: thin ridge;
+	border-top: thin ridge;
+	border-left: thin ridge;
+	border-bottom: thin ridge;
+}
+.Header
+{
+	font-weight: bold;
+	color: #ffffff;
+	font-family: Tahoma;
+	background-color: #4A3C8C;
+}
+.holder
+{
+    FILTER: progid:DXImageTransform.Microsoft.Shadow(direction=135,color=#333333,strength=3)
+}
+.pad
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.bar
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.subholder
+{
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0)
+   progid:DXImageTransform.Microsoft.Shadow(direction=135,color=#333333,strength=3);
+    TEXT-ALIGN: left
+}
+.itemTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainLeft
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 130px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 100px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: center
+}
+.itemSub
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 12px;
+    FILTER: progid:DXImageTransform.Microsoft.Slide(slidestyle=PUSH,Bands=1,duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid
+}
+.itemNormal
+{
+    BORDER-LEFT-COLOR: #c9cbcd;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #c9cbcd;
+    BACKGROUND-COLOR: #9a9b9c;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemOn
+{
+    BORDER-LEFT-COLOR: #feffff;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #feffff;
+    BACKGROUND-COLOR: #c9cbcd;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemDown
+{
+    BORDER-LEFT-COLOR: #2f2f30;
+    BORDER-BOTTOM-COLOR: #c9cbcd;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #2f2f30;
+    BACKGROUND-COLOR: #656667;
+    BORDER-RIGHT-COLOR: #c9cbcd
+}
+.fontNormal
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontOn
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontDown
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-STYLE: italic;
+    FONT-FAMILY: verdana
+}
+.tagNormal
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagOn
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagDown
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}

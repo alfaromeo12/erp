@@ -1,0 +1,371 @@
+﻿
+Imports System.Windows.Forms
+
+Partial Class Sales_SalesOrder
+    Inherits System.Web.UI.Page
+    Public strGroupID As String
+    Public strGroup As String
+    Public strColourID As String
+    Public strColour As String
+    Public strBuyerID As String
+    Public strBuyer As String
+    Public strItemID As String
+    Public strItem As String
+    Public strSizeRangeID As String
+    Public strSizeRange As String
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not IsPostBack Then
+
+            ''SetObjectValidation(txtSearch, True)
+        End If
+        DataSearch()
+        imgBtnNew.Visible = True
+        fvData.Visible = True
+        'MultiView_detail.Visible = False
+        Panel1.Visible = False
+
+    End Sub
+
+    Protected Sub Page_PreInit(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreInit
+        Page.Theme = GetUserTheme(Request.Cookies("UID").Value)
+    End Sub
+
+    Protected Sub gvBomDetail_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles gvData.RowCommand
+        lblError.Visible = False
+        If e.CommandName = "Select" Then
+            FormView1.ChangeMode(FormViewMode.Edit)
+            FormView1.Caption = "Edit Data"
+            FormView1.Visible = True
+            MultiView_detail.SetActiveView(View_detail)
+            imgBtnNew.Visible = False
+            'View_detail.Visible = True
+            Panel1.Visible = True
+        End If
+
+    End Sub
+    Protected Sub gvData_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles gvData.RowCommand
+        lblError.Visible = False
+        If e.CommandName = "Select" Then
+            fvData.ChangeMode(FormViewMode.Edit)
+            'MultiView_detail.SetActiveView(View_detail)
+            fvData.Caption = "Edit Data"
+            imgBtnNew2.Visible = True
+            imgBtnNew.Visible = False
+            fvData.Visible = True
+            gvSODetail.Visible = True
+            MultiView_detail.Visible = True
+            'FormView1.Visible = False
+            gvData.Visible = False
+        End If
+    End Sub
+    Protected Sub gvSODetail_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles gvSODetail.RowCommand
+        lblError.Visible = False
+        If e.CommandName = "Select" Then
+            'MultiView_detail.SetActiveView(View_detail)
+            FormView1.ChangeMode(FormViewMode.Edit)
+            FormView1.Caption = "Edit Data"
+            imgBtnNew2.Visible = True
+            imgBtnNew.Visible = False
+            gvData.Visible = True
+
+        End If
+    End Sub
+    Protected Sub gvSODetail_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvSODetail.RowDataBound
+        lblError.Visible = False
+        If e.Row.RowType = DataControlRowType.Footer Then
+            Dim sum As Double = 0
+            Dim Max As Double = 0
+
+            For index As Integer = 0 To Me.gvSODetail.Rows.Count - 1
+                sum += Convert.ToDouble(Me.gvSODetail.Rows(index).Cells(9).Text)
+                Max = Convert.ToDouble(Me.gvSODetail.Rows(index).Cells(8).Text)
+            Next
+
+
+            e.Row.Cells(8).Text = "FOB : " + Max.ToString()
+            e.Row.Cells(9).Text = "Total     :      " + sum.ToString()
+        End If
+    End Sub
+
+    Protected Sub imgBtnNew_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles imgBtnNew.Click
+        lblError.Visible = False
+        'MultiView_Utama.SetActiveView(View_Form)
+        fvData.Visible = True
+        fvData.ChangeMode(FormViewMode.Insert)
+        fvData.Caption = "New Data"
+        FormView1.Visible = False
+        gvSODetail.Visible = False
+        'ajaxCPEData.Collapsed = True
+        SetDefaultValue()
+
+    End Sub
+    Private Sub SetDefaultValue()
+        Dim oTextBox As WebControls.TextBox
+        oTextBox = CType(fvData.FindControl("txtSalesCode"), WebControls.TextBox)
+        oTextBox.Text = "TEST"
+    End Sub
+    Protected Sub imgBtnNew2_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles imgBtnNew2.Click
+        lblError.Visible = False
+        FormView1.Visible = True
+        MultiView_detail.SetActiveView(View_detail)
+        FormView1.ChangeMode(FormViewMode.Insert)
+        FormView1.Caption = "Sales Order Detail"
+
+        'ajaxCPEData.Collapsed = True
+    End Sub
+    
+    Protected Sub fvData_ItemCreated(ByVal sender As Object, ByVal e As System.EventArgs) Handles fvData.ItemCreated
+        Dim oTextBox As System.Web.UI.WebControls.TextBox
+        oTextBox = CType(fvData.FindControl("txtBuyer"), WebControls.TextBox)
+        If oTextBox IsNot Nothing Then
+            strBuyer = oTextBox.ClientID
+        End If
+        oTextBox = CType(fvData.FindControl("txtGroup"), WebControls.TextBox)
+        If oTextBox IsNot Nothing Then
+            strGroup = oTextBox.ClientID
+        End If
+        oTextBox = CType(fvData.FindControl("txtItemMaster"), WebControls.TextBox)
+        If oTextBox IsNot Nothing Then
+            strItem = oTextBox.ClientID
+        End If
+
+        Dim ohidBuyer As HiddenField
+        Dim ohidItem As HiddenField
+        Dim oHidden As HiddenField
+        oHidden = CType(fvData.FindControl("hidGroup"), HiddenField)
+        If oHidden IsNot Nothing Then
+            strGroupID = oHidden.ClientID
+        End If
+        ohidBuyer = CType(fvData.FindControl("hidBuyer"), HiddenField)
+        If ohidBuyer IsNot Nothing Then
+            strBuyerID = ohidBuyer.ClientID
+        End If
+        ohidItem = CType(fvData.FindControl("hidItem"), HiddenField)
+        If ohidItem IsNot Nothing Then
+            strItemID = ohidItem.ClientID
+        End If
+        Dim otxtSalesCode As WebControls.TextBox
+        Dim objDB As New DBX
+        Try
+            Dim oSDR As System.Data.SqlClient.SqlDataReader
+            oSDR = objDB.CreateSDRFromSQLSelect("SELECT MAX(  'SO/NAG/' + CAST(DATEPART ( YEAR , GETDATE() ) AS VARCHAR(10))+'/'+ CAST(DATEPART ( MONTH , GETDATE() ) AS VARCHAR(10))+'/'+ '000' +''+ CAST(SALESORDERID +1 AS varchar(10)))  AS SALESORDERCODE FROM SALESORDER")
+            If oSDR.Read Then
+                oSDR("SALESORDERCODE").ToString()
+                otxtSalesCode = CType(fvData.FindControl("txtSalesCode"), WebControls.TextBox)
+                otxtSalesCode.Text = oSDR("SALESORDERCODE").ToString()
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+        SetValidation()
+    End Sub
+
+    Private Sub SetValidation()
+        Dim oTextBox As WebControls.TextBox
+        oTextBox = CType(fvData.FindControl("txtBomCode"), WebControls.TextBox)
+        If oTextBox IsNot Nothing Then
+            SetObjectValidation(oTextBox, False, "uppercase nospace")
+            oTextBox.Focus()
+        End If
+
+
+        'oTextBox = CType(fvData.FindControl("txtCode"), TextBox)
+        'If oTextBox IsNot Nothing Then SetObjectValidation(oTextBox, True, "uppercase nospace")
+        'oTextBox = CType(fvData.FindControl("txtName"), TextBox)
+        'If oTextBox IsNot Nothing Then SetObjectValidation(oTextBox, True)
+    End Sub
+
+    Private Sub DataSearch()
+        Dim objDB As New DBX
+        Try
+            Dim oSDR As System.Data.SqlClient.SqlDataReader
+            oSDR = objDB.CreateSDRFromSQLSelect("")
+        Catch ex As Exception
+
+        End Try
+        'Me.sdsGrid.SelectCommand = Me.sdsGrid.SelectCommand & " WHERE TYPE LIKE '%%'"
+        If Len(Trim(txtSearch.Text)) > 0 Then
+            Me.sdsGrid.SelectCommand = Me.sdsGrid.SelectCommand & " AND " + ddlCriteria.SelectedItem.Value + " LIKE '" + Replace(Replace(Replace(Me.txtSearch.Text, ";", ""), "'", "''"), "'", "''") + "%'"
+        End If
+
+        'If Len(Trim(ddlMatGroupType.SelectedValue)) > 0 Then
+        '    Me.sdsSODetail.SelectCommand = Me.sdsSODetail.SelectCommand & " AND MG.MATERIALGROUPID = '" + ddlMatGroupType.SelectedValue + "'"
+        'End If
+        'fvData.Visible = False
+        gvSODetail.DataBind()
+        gvData.DataBind()
+    End Sub
+    Protected Sub fvData_ItemDeleted(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewDeletedEventArgs) Handles fvData.ItemDeleted
+        DataSearch()
+    End Sub
+
+    Protected Sub fvData_ItemInserted(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewInsertedEventArgs) Handles fvData.ItemInserted
+        ' ddlType.DataBind()
+
+        DataSearch()
+    End Sub
+
+    Protected Sub fvData_ItemUpdated(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewUpdatedEventArgs) Handles fvData.ItemUpdated
+        DataSearch()
+    End Sub
+
+    Protected Sub btnFunctionSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnFunctionSearch.Click
+        'DataSearch()
+        lblError.Visible = False
+    End Sub
+
+    Protected Sub fvData_ItemCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewCommandEventArgs) Handles fvData.ItemCommand
+        If e.CommandName = "Cancel" Then
+            gvData.SelectedIndex = -1
+            fvData.Caption = ""
+            gvData.Visible = True
+            MultiView_detail.Visible = False
+        End If
+    End Sub
+
+    'detail
+    Protected Sub FormView1_ItemCreated(ByVal sender As Object, ByVal e As System.EventArgs) Handles FormView1.ItemCreated
+        Dim oTextBox As WebControls.TextBox
+        oTextBox = CType(FormView1.FindControl("txtColour"), WebControls.TextBox)
+        If oTextBox IsNot Nothing Then
+            strColour = oTextBox.ClientID
+        End If
+        oTextBox = CType(FormView1.FindControl("txtSizeRange"), WebControls.TextBox)
+        If oTextBox IsNot Nothing Then
+            strSizeRange = oTextBox.ClientID
+        End If
+
+        Dim ohidColour As HiddenField
+        Dim ohidSizeRange As HiddenField
+        ohidColour = CType(FormView1.FindControl("hidColour"), HiddenField)
+        If ohidColour IsNot Nothing Then
+            strColourID = ohidColour.ClientID
+        End If
+        ohidSizeRange = CType(FormView1.FindControl("hidSizeRange"), HiddenField)
+        If ohidSizeRange IsNot Nothing Then
+            strSizeRangeID = ohidSizeRange.ClientID
+        End If
+    End Sub
+    Protected Sub FormView1_ItemDeleted(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewDeletedEventArgs) Handles FormView1.ItemDeleted
+        DataSearch()
+    End Sub
+
+    Protected Sub FormView1_ItemInserted(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewInsertedEventArgs) Handles FormView1.ItemInserted
+        ' ddlType.DataBind()
+        'SaveDataDetail()
+        DataSearch()
+    End Sub
+
+    Protected Sub FormView1_ItemUpdated(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewUpdatedEventArgs) Handles FormView1.ItemUpdated
+        DataSearch()
+    End Sub
+
+    Protected Sub FormView1_ItemCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.FormViewCommandEventArgs) Handles FormView1.ItemCommand
+        If e.CommandName = "Cancel" Then
+            gvSODetail.SelectedIndex = -1
+            FormView1.Caption = ""
+            FormView1.Visible = False
+            MultiView_detail.Visible = False
+            DataSearch()
+        End If
+
+    End Sub
+
+
+    Protected Sub sdsForm_Inserted(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.SqlDataSourceStatusEventArgs) Handles sdsForm.Inserted
+        If e.Command.Parameters("@retval").Value = -1 Then
+            lblError.Visible = True
+            lblError.Text = "Bom Code : " & e.Command.Parameters("@txtBomCode").Value & " and  Code : " & e.Command.Parameters("@txtBomCode").Value & " already exists..!"
+        Else
+            fvData.Caption = ""
+            lblError.Visible = False
+        End If
+    End Sub
+
+    Protected Sub sdsForm_Deleted(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.SqlDataSourceStatusEventArgs) Handles sdsForm.Deleted
+        fvData.Caption = ""
+    End Sub
+
+    'Protected Sub ddlType_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ddlType.SelectedIndexChanged
+    '    DataSearch()
+    'End Sub
+
+    Private Sub SaveDataDetail()
+
+        Dim objDB As New DBX
+        Dim intRetVal As Integer
+        Dim olblSalesOrderID As WebControls.Label = CType(fvData.FindControl("lblSalesOrderID"), WebControls.Label)
+        Dim otxtSalesOrderDetailCode As WebControls.TextBox = CType(FormView1.FindControl("txtSalesOrderDetailCode"), WebControls.TextBox)
+        Dim ohidColour As HiddenField = CType(FormView1.FindControl("hidColour"), HiddenField)
+        Dim ohidSizeRange As HiddenField = CType(FormView1.FindControl("hidSizeRange"), HiddenField)
+        Dim otxtOrigQty As WebControls.TextBox = CType(FormView1.FindControl("txtOrigQty"), WebControls.TextBox)
+        Dim otxtConsPC As WebControls.TextBox = CType(FormView1.FindControl("txtConsPC"), WebControls.TextBox)
+        Dim otxtTotalAmount As WebControls.TextBox = CType(FormView1.FindControl("txtTotalAmount"), WebControls.TextBox)
+        Dim oddlUnit As DropDownList = CType(FormView1.FindControl("ddlUnit"), DropDownList)
+
+
+
+        Try
+            intRetVal = objDB.ExecSPReturnInteger("SALESORDERDETAILADD", _
+                          objDB.MP("@SALESORDERDETAILCODE", Data.SqlDbType.Int, otxtSalesOrderDetailCode.Text), _
+                          objDB.MP("@SALESORDERID", Data.SqlDbType.Int, olblSalesOrderID.Text), _
+                          objDB.MP("@COLOURID", Data.SqlDbType.Int, ohidColour.Value), _
+                          objDB.MP("@SIZERANGEID", Data.SqlDbType.VarChar, ohidSizeRange.Value), _
+                          objDB.MP("@QTY", Data.SqlDbType.Decimal, otxtOrigQty.Text), _
+                          objDB.MP("@MASTERUNITID", Data.SqlDbType.Int, oddlUnit.SelectedValue), _
+                          objDB.MP("@PRICE", Data.SqlDbType.Decimal, otxtConsPC.Text), _
+                          objDB.MP("@TOTALAMMOUNT", Data.SqlDbType.VarChar, otxtTotalAmount.Text), _
+                          objDB.MP("@USERID", Data.SqlDbType.BigInt, Request.Cookies("UID").Value)
+                         )
+
+
+
+        Catch ex As Exception
+            'lblMessage.Visible = True
+            'lblMessage.Text = "ERROR SAVE DATA INSURANCE COMPANY PRICING: " & ex.Message & "<BR>PLEASE CHECK DETAIL ERROR MESSAGE...!"
+        Finally
+            'objDB.Close()
+            'objDB = Nothing
+        End Try
+    End Sub
+
+    Protected Sub btnSave_Click(sender As Object, e As EventArgs)
+        Dim objDB As New DBX
+        Dim intRetVal As Integer
+        Dim olblSalesOrderID As System.Web.UI.WebControls.Label = CType(fvData.FindControl("lblSalesID"), System.Web.UI.WebControls.Label)
+        Dim otxtSalesOrderDetailCode As WebControls.TextBox = CType(FormView1.FindControl("txtSalesOrderDetailCode"), WebControls.TextBox)
+        Dim ohidColour As HiddenField = CType(FormView1.FindControl("hidColour"), HiddenField)
+        Dim ohidSizeRange As HiddenField = CType(FormView1.FindControl("hidSizeRange"), HiddenField)
+        Dim otxtOrigQty As WebControls.TextBox = CType(FormView1.FindControl("txtOrigQty"), WebControls.TextBox)
+        Dim otxtConsPC As WebControls.TextBox = CType(FormView1.FindControl("txtConsPC"), WebControls.TextBox)
+        Dim otxtTotalAmount As WebControls.TextBox = CType(FormView1.FindControl("txtTotalAmount"), WebControls.TextBox)
+        Dim oddlUnit As DropDownList = CType(FormView1.FindControl("ddlUnit"), DropDownList)
+
+
+
+        Try
+            intRetVal = objDB.ExecSPReturnInteger("SALESORDERDETAILADD", _
+                          objDB.MP("@SALESORDERDETAILCODE", Data.SqlDbType.VarChar, otxtSalesOrderDetailCode.Text), _
+                          objDB.MP("@SALESORDERID", Data.SqlDbType.Int, olblSalesOrderID.Text), _
+                          objDB.MP("@COLOURID", Data.SqlDbType.Int, ohidColour.Value), _
+                          objDB.MP("@SIZERANGEID", Data.SqlDbType.Int, ohidSizeRange.Value), _
+                          objDB.MP("@QTY", Data.SqlDbType.Decimal, otxtOrigQty.Text), _
+                          objDB.MP("@MASTERUNITID", Data.SqlDbType.Int, oddlUnit.SelectedValue), _
+                          objDB.MP("@PRICE", Data.SqlDbType.Decimal, otxtConsPC.Text), _
+                          objDB.MP("@TOTALAMMOUNT", Data.SqlDbType.Decimal, otxtTotalAmount.Text), _
+                          objDB.MP("@USERID", Data.SqlDbType.BigInt, Request.Cookies("UID").Value)
+                         )
+
+        Catch ex As Exception
+            lblMessage.Visible = True
+            lblMessage.Text = "ERROR SAVE DATA SALES ORDER DETAIL: " & ex.Message & "<BR>PLEASE CHECK DETAIL ERROR MESSAGE...!"
+        Finally
+            objDB.Close()
+            objDB = Nothing
+        End Try
+
+        DataSearch()
+    End Sub
+End Class

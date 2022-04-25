@@ -1,0 +1,371 @@
+﻿body
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 8pt;
+	margin: 0px;
+	background-color: activeborder;
+}
+input
+{font-size: 8pt;}
+input:not(.disabled):focus {
+    background-color: Orange;
+    color: Black;
+}
+input:not(.disabled):hover{
+    background-color: Lime;
+    color: Black;
+}
+textarea
+{font-size:8pt;}
+textarea:not(.disabled):focus {
+    border: 1px ridge #f00;
+    background-color: Orange;
+    color: Black;
+}
+textarea:not(.disabled):hover{
+    background-color: Lime;
+    color: Black;
+}
+select
+{font-size:8pt;}
+select:not(.disabled):focus {
+    border: 1px ridge #f00;
+    background-color: Orange;
+    color: Black;
+}
+select:not(.disabled):hover{
+    background-color: Lime;
+    color: Black;
+}
+span:hover{
+    background-color:  Maroon;
+    color: White;
+}
+
+caption
+{
+	font-family: Trebuchet MS, Arial;
+	background-color: InactiveCaption;
+	font-size: small;
+	border-right: thin groove;
+	border-top: thin groove;
+	border-left: thin groove;
+	border-bottom: thin groove;
+	font-weight: bold;
+}
+
+.Search
+{
+	background-position: left top;
+	background-image: url(../../images/search.gif);
+	width: 60px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	
+	text-align: right;
+}
+
+
+a
+{
+}
+
+a:hover
+{
+	color: InfoText;
+}
+.disabled
+{
+	background-color: #d8dcdc;
+}
+.required
+{
+	background-position: right top;
+	background-image: url(../../images/required.gif);
+	background-repeat: no-repeat;
+	background-color: #66ffff;
+	color: maroon;
+}
+
+
+
+/* Data Web Control Styles */
+.HeaderStyle
+{
+	font-weight: bold;
+	font-family: Trebuchet MS, Arial;
+	background-color:  InfoBackground;
+	font-weight: bold;
+	font-size: 8pt;
+	border-right: thin outset;
+	border-top: thin outset;
+	border-left: thin outset;
+	border-bottom: thin outset;
+}
+.DataWebControlStyle
+{
+	font-size: 10pt;
+	font-family: Trebuchet MS, Arial;
+	border-right: infobackground 2px inset;
+	border-top: infobackground 2px inset;
+	border-left: infobackground 2px inset;
+	border-bottom: infobackground 2px inset;
+	background-color: activecaption;
+}
+
+.FooterStyle
+{
+	background-color:  Menu;
+	vertical-align: top;
+	font-size: 8pt;
+}
+
+.AlternatingRowStyle
+{
+	background-color: inactivecaption;
+	vertical-align: top;
+	font-size: 8pt;
+}
+
+.RowStyle
+{
+	background-color: window;
+	vertical-align: top;
+	font-size: 8pt;
+}
+
+.SelectedRowStyle
+{
+    background-color:InfoText;
+    color:InfoBackground;
+    vertical-align:top;
+	border-bottom: thin ridge;
+	font-size: 8pt;
+}
+.Error
+{
+	font-weight: bold;
+	color: #ff0000;
+	font-style: italic;
+	background-color: infobackground;
+	vertical-align: middle;
+	text-align: center;
+	font-size: medium;
+
+}
+.RowOver
+{
+	background-color: Scrollbar;
+	vertical-align: top;
+	border-bottom: thin ridge;
+}
+.title
+{
+	font-family: verdana, Arial;
+	font-weight: bold;
+	font-size: 12pt;
+	background-color: ActiveCaption;
+	color: CaptionText;
+	border-top: double;
+	border-left: double;
+	border-right: thin ridge;
+	border-bottom: thin ridge;
+	border-bottom-color: ButtonFace;
+	border-right-color: ButtonFace;
+}
+
+.ErrHighLight
+{
+	background-color: yellow;
+	color: black;
+}
+
+
+/*
+ini adalah style dari MENU javascript
+*/
+.Panel
+{
+	background-color: #4A3C8C;
+	border-right: thin ridge;
+	border-top: thin ridge;
+	border-left: thin ridge;
+	border-bottom: thin ridge;
+}
+
+.holder
+{
+    /*FILTER: progid:DXImageTransform.Microsoft.Shadow(direction=135,color=#333333,strength=3)*/
+}
+.pad
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.bar
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.subholder
+{
+    TEXT-ALIGN: left
+}
+.itemTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainLeft
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 130px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 100px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: center
+}
+.itemSub
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 12px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid
+}
+.itemNormal
+{
+    BORDER-LEFT-COLOR: #c9cbcd;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #c9cbcd;
+    BACKGROUND-COLOR: #9a9b9c;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemOn
+{
+    BORDER-LEFT-COLOR: #feffff;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #feffff;
+    BACKGROUND-COLOR: #c9cbcd;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemDown
+{
+    BORDER-LEFT-COLOR: #2f2f30;
+    BORDER-BOTTOM-COLOR: #c9cbcd;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #2f2f30;
+    BACKGROUND-COLOR: #656667;
+    BORDER-RIGHT-COLOR: #c9cbcd
+}
+.fontNormal
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontOn
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontDown
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-STYLE: italic;
+    FONT-FAMILY: verdana
+}
+.tagNormal
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagOn
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagDown
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+td
+{
+	vertical-align:top;
+}
+
+.ShowDetail
+{
+	border-right: thin double;
+	border-top: thin double;
+	border-left: thin double;
+	border-bottom: thin double;
+	background-color:   InactiveCaption;
+	cursor: move;
+	font-weight: bold;
+}
+th
+{
+	border-right: 1px ridge;
+	border-top: 1px ridge;
+	border-left: 1px ridge;
+	border-bottom: 1px ridge;
+	vertical-align:top;
+}
+.report
+{
+	background-color:White
+}

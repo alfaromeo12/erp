@@ -1,0 +1,155 @@
+.holder
+{
+    FILTER: progid:DXImageTransform.Microsoft.Shadow(direction=135,color=#333333,strength=3)
+}
+.pad
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.bar
+{
+    BORDER-RIGHT: #000000 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: #000000 1px solid;
+    PADDING-LEFT: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: #000000 1px solid;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: #000000 1px solid;
+    BACKGROUND-COLOR: #656567}
+.subholder
+{
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0)
+   progid:DXImageTransform.Microsoft.Shadow(direction=135,color=#333333,strength=3);
+    TEXT-ALIGN: left
+}
+.itemTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainLeft
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 130px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: left
+}
+.MainTop
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 2px;
+    FILTER: progid:DXImageTransform.Microsoft.RandomDissolve(duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 100px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid;
+    TEXT-ALIGN: center
+}
+.itemSub
+{
+    BORDER-RIGHT: 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 12px;
+    FILTER: progid:DXImageTransform.Microsoft.Slide(slidestyle=PUSH,Bands=1,duration=0);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: 1px solid;
+    WIDTH: 200px;
+    cursor: pointer;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: 1px solid
+}
+.itemNormal
+{
+    BORDER-LEFT-COLOR: #c9cbcd;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #c9cbcd;
+    BACKGROUND-COLOR: #9a9b9c;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemOn
+{
+    BORDER-LEFT-COLOR: #feffff;
+    BORDER-BOTTOM-COLOR: #656667;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #feffff;
+    BACKGROUND-COLOR: #c9cbcd;
+    BORDER-RIGHT-COLOR: #656667
+}
+.itemDown
+{
+    BORDER-LEFT-COLOR: #2f2f30;
+    BORDER-BOTTOM-COLOR: #c9cbcd;
+    cursor: pointer;
+    BORDER-TOP-COLOR: #2f2f30;
+    BACKGROUND-COLOR: #656667;
+    BORDER-RIGHT-COLOR: #c9cbcd
+}
+.fontNormal
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontOn
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-FAMILY: verdana
+}
+.fontDown
+{
+    FONT-SIZE: 9px;
+    COLOR: #070707;
+    FONT-STYLE: italic;
+    FONT-FAMILY: verdana
+}
+.tagNormal
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagOn
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}
+.tagDown
+{
+    FLOAT: right;
+    WIDTH: 10px;
+    HEIGHT: 10px
+}

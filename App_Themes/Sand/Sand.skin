@@ -1,0 +1,34 @@
+<asp:DetailsView runat="server" CssClass="DataWebControlStyle">
+   <AlternatingRowStyle CssClass="AlternatingRowStyle" />
+   <RowStyle CssClass="RowStyle" />
+   <FieldHeaderStyle CssClass="HeaderStyle" />
+</asp:DetailsView>
+
+<asp:GridView runat="server" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="1" GridLines="None" ForeColor="Black">
+   <AlternatingRowStyle CssClass="AlternatingRowStyle" />
+   <HeaderStyle CssClass="HeaderStyle" />
+   <FooterStyle CssClass="FooterStyle" />
+   <SelectedRowStyle CssClass="SelectedRowStyle" />
+   <PagerSettings FirstPageImageUrl="~/images/icon_first_record.gif" LastPageImageUrl="~/images/icon_last_record.gif"
+                NextPageImageUrl="~/images/icon_next.gif" PreviousPageImageUrl="~/images/icon_previous.gif" Position="TopAndBottom" 
+                NextPageText="Next" PreviousPageText="Previous" FirstPageText="First Page" LastPageText="Last Page" Mode="NextPreviousFirstLast"  />
+    <PagerStyle BackColor="PaleGoldenrod" ForeColor="DarkSlateBlue" />
+                
+</asp:GridView>
+
+<asp:FormView runat="server" CssClass="DataWebControlStyle" >
+   <RowStyle CssClass="RowStyle" />
+   <HeaderStyle CssClass="HeaderStyle" />
+   <FooterStyle CssClass="FooterStyle" />
+   <PagerSettings FirstPageImageUrl="~/images/icon_first_record.gif" LastPageImageUrl="~/images/icon_last_record.gif"
+                NextPageImageUrl="~/images/icon_next.gif" PreviousPageImageUrl="~/images/icon_previous.gif" Position="TopAndBottom" 
+                NextPageText="Next" PreviousPageText="Previous" FirstPageText="First Page" LastPageText="Last Page" Mode="NextPreviousFirstLast"  />
+    <PagerStyle CssClass="CellHeader" />  
+</asp:FormView>
+    
+<asp:DataList runat="server" CssClass="DataWebControlStyle">
+   <AlternatingItemStyle CssClass="AlternatingRowStyle" />
+   <ItemStyle CssClass="RowStyle" />
+   <HeaderStyle CssClass="HeaderStyle" />
+
+</asp:DataList>              
