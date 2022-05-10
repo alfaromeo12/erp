@@ -1,5 +1,4 @@
 <%@ Page Language="VB" AutoEventWireup="false" CodeFile="Menu.aspx.vb" Inherits="Menu" %>
-<%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +13,7 @@
     </ajaxToolkit:ToolkitScriptManager>
         <asp:Panel ID="pnlDleas" runat="server" style="text-align: center">
             <asp:Image ID="imgDLEAS" runat="server" 
-    ImageUrl="~/Images/destar logo.png" Height="162px" Width="170px" />
+    ImageUrl="~/Images/ERP_LOGO.PNG" Height="162px" Width="170px" />
             <br />
             </asp:Panel>
     </div>

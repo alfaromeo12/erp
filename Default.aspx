@@ -1,6 +1,6 @@
 ﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>..::PPI DeStar::..</title>
+<title>..::ERP::..</title>
 <link rel="shortcut icon" href="images/destarlogo.png">
 </head>
 <frameset cols="100%" rows="80,*" border=0>

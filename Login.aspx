@@ -1,13 +1,11 @@
 <%@ Page Language="VB" AutoEventWireup="false" CodeFile="Login.aspx.vb" Inherits="LoginX" Title="Login"  %>
-
-<%@ Register Assembly="DevExpress.Web.v17.2, Version=17.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <%@ Register Assembly="BusyBoxDotNet" Namespace="BusyBoxDotNet" TagPrefix="busyboxdotnet" %>
 <%@ Register assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI" tagprefix="asp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head id="Head1" runat="server">
-<title>PPI Portal</title>
-	<link rel="shortcut icon" href="images/destarlogo.PNG" />
+<title>ERP Portal</title>
+	<link rel="shortcut icon" href="images/erp.JPG" />
 <style type="text/css">
 .required
 {
@@ -22,13 +20,13 @@
 }
 .ImgLogin
 {
-	background-image: url();
+	background-image: url(images/Login.PNG);
 	background-repeat:no-repeat;
 	background-position: right top;
 }
 .ImgDleas
 {
-	background-image: url(images/destarlogo.PNG);
+	background-image: url(images/ERP_LOGO.PNG);
 	background-repeat: no-repeat;
 	background-position: center top;
 }
@@ -61,10 +59,10 @@
         </ajaxToolkit:DropShadowExtender>
         <ajaxToolkit:AlwaysVisibleControlExtender ID="ajxAVCEPSAK" runat="server" HorizontalSide="Center" TargetControlID="PanelBottom" VerticalSide="Top">
         </ajaxToolkit:AlwaysVisibleControlExtender>
-		<br />
+        <br />
 		<br />
 		<asp:Panel ID="pnlLogin" runat="server">
-					<table cellspacing="0" style="width: 381px; height: 185px;" id="TABLE2" class="ImgDleas" >
+					<table cellspacing="0" style="width: 397px; height: 200px;" id="TABLE2" class="ImgDleas" >
                     <tr>
                     <td></td>
                     </tr>
@@ -88,8 +86,8 @@
 						</tr>
 						<tr>
 							<td class="style4">
-								 <dx:ASPxLabel ID="lblUser" runat="server"  Text="User ID" 
-                                     style="font-size: 10pt;  color: #009900; font-weight: 700;"></dx:ASPxLabel>
+								 <asp:Label ID="lblUser" runat="server"  Text="User ID" 
+                                     style="font-size: 10pt;  color: #009900; font-weight: 700;"></asp:Label>
 								 </td>
 							<td>
                                 <asp:TextBox ID="txtUser" runat="server" autocomplete="off" CssClass="required" 
@@ -98,14 +96,13 @@
                                     ControlToValidate="txtUser" Display="None" 
                                     ErrorMessage="User ID must be entry...!" SetFocusOnError="True"></asp:RequiredFieldValidator>
                                 <ajaxToolkit:ValidatorCalloutExtender ID="ajaxVCE" runat="server" 
-                                    HighlightCssClass="ErrHighLight" TargetControlID="ReqUserID">
-                                </ajaxToolkit:ValidatorCalloutExtender>
+                                    HighlightCssClass="ErrHighLight" TargetControlID="ReqUserID"></ajaxToolkit:ValidatorCalloutExtender>
                             </td>
 						</tr>
 						<tr>
 							<td class="style4">
-								<dx:ASPxLabel ID="lblPass" runat="server" Text="Password" 
-                                    style="font-size: 10pt;  color: #009900; font-weight: 700;"></dx:ASPxLabel>
+								<asp:Label ID="lblPass" runat="server" Text="Password" 
+                                    style="font-size: 10pt;  color: #009900; font-weight: 700;"></asp:Label>
 								</td>
 							<td>
                                 <asp:TextBox ID="txtPass" runat="server" CssClass="required" Font-Bold="False" 
@@ -114,14 +111,13 @@
                                     ControlToValidate="txtPass" Display="None" 
                                     ErrorMessage="Password must be entry...!" SetFocusOnError="True"></asp:RequiredFieldValidator>
                                 <ajaxToolkit:ValidatorCalloutExtender ID="ReqPassword_ValidatorCalloutExtender" 
-                                    runat="server" HighlightCssClass="ErrHighLight" TargetControlID="ReqPassword">
-                                </ajaxToolkit:ValidatorCalloutExtender>
+                                    runat="server" HighlightCssClass="ErrHighLight" TargetControlID="ReqPassword"></ajaxToolkit:ValidatorCalloutExtender>
                             </td>
 						</tr>
 						<tr>
 							<td class="style4">
-								<dx:ASPxLabel ID="Label1" runat="server"  Text="Menu Style" 
-									style="font-size: 10pt; color: #009900; font-weight: 700;"></dx:ASPxLabel>
+								<asp:Label ID="Label1" runat="server"  Text="Menu Style" 
+									style="font-size: 10pt; color: #009900; font-weight: 700;"></asp:Label>
 								</td>
 							<td>
 								<asp:DropDownList ID="ddlMenu" runat="server" Width="150px">
@@ -134,8 +130,8 @@
 						</tr>
 						<tr>
 							<td class="style4">
-								<dx:ASPxLabel ID="Label2" runat="server" Text="Available Theme" 
-									style="font-size: 10pt; color: #009900; font-weight: 700;"></dx:ASPxLabel>
+								<asp:Label ID="Label2" runat="server" Text="Available Theme" 
+									style="font-size: 10pt; color: #009900; font-weight: 700;"></asp:Label>
 							</td>
 							<td>
 								<asp:DropDownList ID="ddlTheme" runat="server" Width="150px">
@@ -159,7 +155,7 @@
 									style="font-size: 10pt; color: #009900; font-weight: 700;"></asp:Label>
 							</td>
 							<td colspan="2">
-								<dx:ASPxButton ID="btnLogin" runat="server" 
+								<asp:Button ID="btnLogin" runat="server" 
 									style="cursor: pointer; background-position: right; background-image: url(images/login.gif); background-repeat: no-repeat; text-align: left;" 
 									Text="Login" CssClass="style4"  />
 							</td>
@@ -171,7 +167,7 @@
 						</tr>
 						<tr>
 							<td style="text-align: left; font-weight: bold; font-style: normal;" colspan="2">
-								<a href="#" onclick='this.style.behavior=&#039;url(#default#homepage)&#039;;this.setHomePage(&#039;<%="http://" & Request.ServerVariables("SERVER_NAME") &  Request.ServerVariables("SCRIPT_NAME")%>&#039;);' style="font-size: 10pt;font-family:'Franklin Gothic Book'; color: #cc0099">click here to make your default homepage</a><br />OR <a href="#" onclick='bookmarksite(&#039;DLEAS==@<%="http://" & Request.ServerVariables("SERVER_NAME") &  Request.ServerVariables("SCRIPT_NAME")%>&#039;, &#039;<%="http://" & Request.ServerVariables("SERVER_NAME") &  Request.ServerVariables("SCRIPT_NAME")%>&#039;)' style="text-align: center ;font-family:'Franklin Gothic Book';color:#cc0099">click here to bookmark&nbsp;</a></td>
+								<a href="#" onclick='this.style.behavior=&#039;url(#default#homepage)&#039;;this.setHomePage(&#039;<%="http://" & Request.ServerVariables("SERVER_NAME") & Request.ServerVariables("SCRIPT_NAME")%>&#039;);' style="font-size: 10pt;font-family:'Franklin Gothic Book'; color: #cc0099">click here to make your default homepage</a><br />OR <a href="#" onclick='bookmarksite(&#039;DLEAS==@<%="http://" & Request.ServerVariables("SERVER_NAME") & Request.ServerVariables("SCRIPT_NAME")%>&#039;, &#039;<%="http://" & Request.ServerVariables("SERVER_NAME") & Request.ServerVariables("SCRIPT_NAME")%>&#039;)' style="text-align: center ;font-family:'Franklin Gothic Book';color:#cc0099">click here to bookmark&nbsp;</a></td>
 						</tr>
 						<tr>
 							<td colspan="2">
@@ -190,19 +186,17 @@
                         </tr>
 						<tr>
 							<td colspan="2" bgcolor="#0066cc" style="margin-left: 80px">
-                                <dx:ASPxLabel ID="lblError" runat="server" Font-Bold="True" 
+                                <asp:Label ID="lblError" runat="server" Font-Bold="True" 
                                     Font-Names="Book Antiqua" Font-Size="Small" ForeColor="Gold" 
                                     style="text-align: center; color: #FFFF00; background-color: #FF0000;" 
-                                    Width="100%" Visible="False"></dx:ASPxLabel>
-                            <ajaxToolkit:AnimationExtender ID="ajaxAEError" runat="server" TargetControlID="lblError">
-                            <Animations>
+                                    Width="100%" Visible="False"></asp:Label>
+                            <ajaxToolkit:AnimationExtender ID="ajaxAEError" runat="server" TargetControlID="lblError"><Animations>
                             <OnLoad>
                             <Sequence>
                             <Pulse Duration="0.2" Iterations="0" />
                             </Sequence>
                             </OnLoad>
-                            </Animations>
-                            </ajaxToolkit:AnimationExtender>
+                            </Animations></ajaxToolkit:AnimationExtender>
                             </td>
 						</tr>
 						<tr>
