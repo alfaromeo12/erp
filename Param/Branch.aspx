@@ -923,7 +923,7 @@
         
         
         
-        SelectCommand="SELECT NULL AS UserId, '[INITIAL APPROVER]' AS UserName UNION ALL SELECT UID, CAST(UserID AS varchar(20)) + ' - ' + UserName AS UserName FROM APPUSER WITH (nolock) WHERE (Deletests = '0') ORDER BY UserID"></asp:SqlDataSource>
+        SelectCommand="SELECT NULL AS UserId, '[INITIAL APPROVER]' AS UserName UNION ALL SELECT UID, CAST(UserID AS varchar(20)) COLLATE SQL_Latin1_General_CP1_CI_AS + ' - ' + UserName AS UserName FROM APPUSER WITH (nolock) WHERE (Deletests = '0') ORDER BY UserID"></asp:SqlDataSource>
 
 </asp:Content>
 
