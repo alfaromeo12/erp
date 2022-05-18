@@ -13,7 +13,7 @@
     </ajaxToolkit:ToolkitScriptManager>
         <asp:Panel ID="pnlDleas" runat="server" style="text-align: center">
             <asp:Image ID="imgDLEAS" runat="server" 
-    ImageUrl="~/Images/ERP_LOGO.PNG" Height="162px" Width="170px" />
+    ImageUrl="~/Images/esm.PNG" Height="162px" Width="170px" />
             <br />
             </asp:Panel>
     </div>
